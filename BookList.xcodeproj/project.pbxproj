@@ -17,6 +17,7 @@
 		2F90E146254306FA00536615 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E145254306FA00536615 /* SearchViewController.swift */; };
 		2F90E1492543070600536615 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E1482543070600536615 /* ProfileViewController.swift */; };
 		2F90E15425430C1100536615 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E15325430C1100536615 /* UIColorExtensions.swift */; };
+		2F90E15D2543387600536615 /* IntrestingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E15C2543387600536615 /* IntrestingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		2F90E145254306FA00536615 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		2F90E1482543070600536615 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		2F90E15325430C1100536615 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
+		2F90E15C2543387600536615 /* IntrestingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrestingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				2F3B02D82542FA7F00ABE483 /* Supporting files */,
 				2F3B02D72542FA6700ABE483 /* Storyboards */,
 				2F90E13F254306A000536615 /* Controllers */,
+				2F90E15B2543384F00536615 /* Views */,
 				2F90E14F25430BB400536615 /* Extensions */,
 				2F3630BF253498D90065FEEA /* Info.plist */,
 			);
@@ -109,6 +112,14 @@
 				2F90E15325430C1100536615 /* UIColorExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2F90E15B2543384F00536615 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2F90E15C2543387600536615 /* IntrestingView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F90E1492543070600536615 /* ProfileViewController.swift in Sources */,
+				2F90E15D2543387600536615 /* IntrestingView.swift in Sources */,
 				2F90E15425430C1100536615 /* UIColorExtensions.swift in Sources */,
 				2F90E146254306FA00536615 /* SearchViewController.swift in Sources */,
 				2F3630B2253498D80065FEEA /* AppDelegate.swift in Sources */,
