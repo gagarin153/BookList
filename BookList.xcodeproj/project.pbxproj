@@ -12,6 +12,7 @@
 		2F3630B9253498D80065FEEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F3630B7253498D80065FEEA /* Main.storyboard */; };
 		2F3630BB253498D90065FEEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F3630BA253498D90065FEEA /* Assets.xcassets */; };
 		2F3630BE253498D90065FEEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F3630BC253498D90065FEEA /* LaunchScreen.storyboard */; };
+		2F5F2A82254459C300C9F814 /* ArticleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */; };
 		2F90E13D2543069300536615 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E13C2543069300536615 /* MainTabBarController.swift */; };
 		2F90E142254306E900536615 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E141254306E900536615 /* LibraryViewController.swift */; };
 		2F90E146254306FA00536615 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E145254306FA00536615 /* SearchViewController.swift */; };
@@ -28,6 +29,7 @@
 		2F3630BA253498D90065FEEA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2F3630BD253498D90065FEEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2F3630BF253498D90065FEEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCollectionViewCell.swift; sourceTree = "<group>"; };
 		2F90E13C2543069300536615 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		2F90E141254306E900536615 /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		2F90E145254306FA00536615 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				2F90E15C2543387600536615 /* IntrestingView.swift */,
+				2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 				2F90E1492543070600536615 /* ProfileViewController.swift in Sources */,
 				2F90E15D2543387600536615 /* IntrestingView.swift in Sources */,
 				2F90E15425430C1100536615 /* UIColorExtensions.swift in Sources */,
+				2F5F2A82254459C300C9F814 /* ArticleCollectionViewCell.swift in Sources */,
 				2F90E146254306FA00536615 /* SearchViewController.swift in Sources */,
 				2F3630B2253498D80065FEEA /* AppDelegate.swift in Sources */,
 				2F90E13D2543069300536615 /* MainTabBarController.swift in Sources */,

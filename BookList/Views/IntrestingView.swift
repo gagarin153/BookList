@@ -1,8 +1,17 @@
 import UIKit
 
 class IntrestingView: UIView {
+        
+    private let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        c.backgroundColor = .clear
+        c.translatesAutoresizingMaskIntoConstraints = false
+        return c
+    }()
     
-   private let label: UILabel = {
+    private let label: UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.text = "Интересное"
@@ -30,17 +39,21 @@ class IntrestingView: UIView {
     override init(frame: CGRect){
         super.init(frame: frame)
         
-        setUpSelf()
+        setUpViews()
         setUpConstraints()
     }
     
-    private func setUpSelf() {
+    private func setUpViews() {
         self.backgroundColor = .clear
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(label)
         self.addSubview(containerView)
-        self.addSubview(nextButton)
-       
+        containerView.addSubview(collectionView)
+        containerView.addSubview(nextButton)
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(ArticleCollectionViewCell.self, forCellWithReuseIdentifier: ArticleCollectionViewCell.reuseIdentifier)
     }
     
     private  func setUpConstraints() {
@@ -51,7 +64,12 @@ class IntrestingView: UIView {
         containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-
+        
+        collectionView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -20).isActive = true
+        
         nextButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10).isActive = true
         nextButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         nextButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -63,3 +81,23 @@ class IntrestingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+extension IntrestingView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 160, height: 160)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 8
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArticleCollectionViewCell.reuseIdentifier, for: indexPath) as? ArticleCollectionViewCell
+        
+        
+        return cell ?? UICollectionViewCell()
+    }
+    
+}
+
