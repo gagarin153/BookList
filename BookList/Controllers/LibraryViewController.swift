@@ -42,7 +42,7 @@ class LibraryViewController: UIViewController {
         intrestingView.topAnchor.constraint(equalTo: self.scrollView.topAnchor).isActive = true
         intrestingView.leadingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
         intrestingView.trailingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
-        intrestingView.heightAnchor.constraint(equalToConstant: 240).isActive = true
+        intrestingView.heightAnchor.constraint(equalToConstant: 260).isActive = true
     }
 }
 
