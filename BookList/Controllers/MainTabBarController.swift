@@ -11,7 +11,7 @@ class MainTabBarController: UITabBarController {
     func setUpTabBar() {
         // Пока не найдем нормальные иконок, их не будет
         let libraryVC = UINavigationController(rootViewController: LibraryViewController())
-        libraryVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        libraryVC.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 1)
         
         let searchVC = UINavigationController(rootViewController: SearchViewController())
         searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
