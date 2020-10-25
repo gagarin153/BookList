@@ -11,7 +11,7 @@ class IntrestingView: UIView {
         return c
     }()
     
-    private let label: UILabel = {
+    private let intrestingLabel: UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.text = "Интересное"
@@ -46,7 +46,7 @@ class IntrestingView: UIView {
     private func setUpViews() {
         self.backgroundColor = .clear
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(label)
+        self.addSubview(intrestingLabel)
         self.addSubview(containerView)
         containerView.addSubview(collectionView)
         containerView.addSubview(nextButton)
@@ -57,10 +57,10 @@ class IntrestingView: UIView {
     }
     
     private  func setUpConstraints() {
-        label.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        label.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
+        intrestingLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        intrestingLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         
-        containerView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 5).isActive = true
+        containerView.topAnchor.constraint(equalTo: intrestingLabel.bottomAnchor, constant: 5).isActive = true
         containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
