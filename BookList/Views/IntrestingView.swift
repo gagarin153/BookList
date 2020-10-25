@@ -68,7 +68,7 @@ class IntrestingView: UIView {
         collectionView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -20).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -5).isActive = true
         
         nextButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10).isActive = true
         nextButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
