@@ -19,6 +19,8 @@
 		2F90E1492543070600536615 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E1482543070600536615 /* ProfileViewController.swift */; };
 		2F90E15425430C1100536615 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E15325430C1100536615 /* UIColorExtensions.swift */; };
 		2F90E15D2543387600536615 /* IntrestingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E15C2543387600536615 /* IntrestingView.swift */; };
+		2F912924254834CF00B5D0B3 /* BooksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F912923254834CF00B5D0B3 /* BooksView.swift */; };
+		2F9129282548402000B5D0B3 /* BookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9129272548402000B5D0B3 /* BookCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		2F90E1482543070600536615 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		2F90E15325430C1100536615 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		2F90E15C2543387600536615 /* IntrestingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrestingView.swift; sourceTree = "<group>"; };
+		2F912923254834CF00B5D0B3 /* BooksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksView.swift; sourceTree = "<group>"; };
+		2F9129272548402000B5D0B3 /* BookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +75,7 @@
 				2F3B02D82542FA7F00ABE483 /* Supporting files */,
 				2F3B02D72542FA6700ABE483 /* Storyboards */,
 				2F90E13F254306A000536615 /* Controllers */,
+				2F56798D25481D6B00ADA235 /* Cells */,
 				2F90E15B2543384F00536615 /* Views */,
 				2F90E14F25430BB400536615 /* Extensions */,
 				2F3630BF253498D90065FEEA /* Info.plist */,
@@ -97,6 +102,15 @@
 			path = "Supporting files";
 			sourceTree = "<group>";
 		};
+		2F56798D25481D6B00ADA235 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2F9129272548402000B5D0B3 /* BookCollectionViewCell.swift */,
+				2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		2F90E13F254306A000536615 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,8 +133,8 @@
 		2F90E15B2543384F00536615 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2F912923254834CF00B5D0B3 /* BooksView.swift */,
 				2F90E15C2543387600536615 /* IntrestingView.swift */,
-				2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -198,10 +212,12 @@
 				2F90E1492543070600536615 /* ProfileViewController.swift in Sources */,
 				2F90E15D2543387600536615 /* IntrestingView.swift in Sources */,
 				2F90E15425430C1100536615 /* UIColorExtensions.swift in Sources */,
+				2F9129282548402000B5D0B3 /* BookCollectionViewCell.swift in Sources */,
 				2F5F2A82254459C300C9F814 /* ArticleCollectionViewCell.swift in Sources */,
 				2F90E146254306FA00536615 /* SearchViewController.swift in Sources */,
 				2F3630B2253498D80065FEEA /* AppDelegate.swift in Sources */,
 				2F90E13D2543069300536615 /* MainTabBarController.swift in Sources */,
+				2F912924254834CF00B5D0B3 /* BooksView.swift in Sources */,
 				2F90E142254306E900536615 /* LibraryViewController.swift in Sources */,
 				2F3630B4253498D80065FEEA /* SceneDelegate.swift in Sources */,
 			);
@@ -280,7 +296,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -335,7 +351,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -353,6 +369,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 93LQDKX637;
 				INFOPLIST_FILE = "$(SRCROOT)/BookList/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -372,6 +389,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 93LQDKX637;
 				INFOPLIST_FILE = "$(SRCROOT)/BookList/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

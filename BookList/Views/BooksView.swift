@@ -1,7 +1,14 @@
+//
+//  BooksView.swift
+//  BookList
+//
+//  Created by Sultan on 27.10.2020.
+//
+
 import UIKit
 
-class IntrestingView: UIView {
-        
+class BooksView: UIView {
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -11,10 +18,18 @@ class IntrestingView: UIView {
         return c
     }()
     
-    private let intrestingLabel: UILabel = {
+    private let descriptionLabel: UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
-        l.text = "Интересное"
+        return l
+    }()
+    
+    private let fullListLabel: UILabel = {
+        let l = UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.textColor = .systemBlue
+        l.text = "см. все"
+        l.isUserInteractionEnabled = true
         return l
     }()
     
@@ -22,23 +37,17 @@ class IntrestingView: UIView {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
         v.backgroundColor = .white
-        v.layer.cornerRadius = 30.0
+        v.layer.cornerRadius = 10.0
         return v
-    }()
-    
-    private  let nextButton: UIButton = {
-        let b = UIButton()
-        b.translatesAutoresizingMaskIntoConstraints = false
-        b.setTitle("Далее", for: .normal)
-        b.setTitleColor(.black, for: .normal)
-        b.layer.cornerRadius = 10.0
-        b.backgroundColor = .whiteGray
-        return b
     }()
     
     override init(frame: CGRect){
         super.init(frame: frame)
-        
+    }
+    
+    init(description text: String) {
+        self.init()
+        descriptionLabel.text = text
         setUpViews()
         setUpConstraints()
     }
@@ -46,46 +55,43 @@ class IntrestingView: UIView {
     private func setUpViews() {
         self.backgroundColor = .clear
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(intrestingLabel)
+        self.addSubview(descriptionLabel)
+        self.addSubview(fullListLabel)
         self.addSubview(containerView)
         containerView.addSubview(collectionView)
-        containerView.addSubview(nextButton)
         
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(ArticleCollectionViewCell.self, forCellWithReuseIdentifier: ArticleCollectionViewCell.reuseIdentifier)
-    }
-    
-    private  func setUpConstraints() {
-        intrestingLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        intrestingLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-        
-        containerView.topAnchor.constraint(equalTo: intrestingLabel.bottomAnchor, constant: 5).isActive = true
-        containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        
-        collectionView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -5).isActive = true
-        
-        nextButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10).isActive = true
-        nextButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        nextButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        nextButton.widthAnchor.constraint(equalToConstant: 145).isActive = true
-        
+        collectionView.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: BookCollectionViewCell.reuseIdentifier)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private  func setUpConstraints() {
+        descriptionLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
+        
+        fullListLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        fullListLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+        
+        containerView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 5).isActive = true
+        containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+                
+        collectionView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20).isActive = true
+    }
 }
 
-extension IntrestingView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 160, height: 160)
+        return CGSize(width: 100, height: 150)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -93,7 +99,7 @@ extension IntrestingView: UICollectionViewDataSource, UICollectionViewDelegate, 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArticleCollectionViewCell.reuseIdentifier, for: indexPath) as? ArticleCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCollectionViewCell.reuseIdentifier, for: indexPath) as? BookCollectionViewCell
         
         return cell ?? UICollectionViewCell()
     }
@@ -103,4 +109,3 @@ extension IntrestingView: UICollectionViewDataSource, UICollectionViewDelegate, 
     }
     
 }
-

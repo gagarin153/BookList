@@ -21,7 +21,9 @@ class ArticleCollectionViewCell: UICollectionViewCell {
     private let textLabel: UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
-        l.text = "Топ 10 романов русской\n литературы"
+        l.text = "Топ 10 романов русской литературы"
+        l.numberOfLines = 2
+        l.textAlignment = .center
         return l
     }()
     
