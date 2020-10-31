@@ -1,4 +1,5 @@
 import UIKit
+import Firebase
 
 class LibraryViewController: UIViewController {
     
@@ -16,7 +17,11 @@ class LibraryViewController: UIViewController {
         setUpIntrestingViewConstraint()
         setUpBooksViewConstraint()
         
-        
+        let booksRef = db.collection("Books")
+
+        for _ in 0...10 {
+            
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

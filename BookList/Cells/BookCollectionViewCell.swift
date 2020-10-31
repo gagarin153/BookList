@@ -14,7 +14,7 @@ class BookCollectionViewCell: UICollectionViewCell {
         let i = UIImageView()
         i.backgroundColor = .systemIndigo
         i.translatesAutoresizingMaskIntoConstraints = false
-        i.layer.cornerRadius = 20.0
+        i.layer.cornerRadius = 10.0
         return i
     }()
     

@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  BookList
-//
-//  Created by Sultan on 12.10.2020.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
