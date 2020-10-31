@@ -1,4 +1,4 @@
-framework module Pods_BookList {
+module Pods_BookList {
   umbrella header "Pods-BookList-umbrella.h"
 
   export *

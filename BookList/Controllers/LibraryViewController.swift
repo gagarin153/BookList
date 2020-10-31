@@ -1,5 +1,6 @@
 import UIKit
 import Firebase
+import SwiftyJSON
 
 class LibraryViewController: UIViewController {
     
@@ -17,12 +18,24 @@ class LibraryViewController: UIViewController {
         setUpIntrestingViewConstraint()
         setUpBooksViewConstraint()
         
-        let booksRef = db.collection("Books")
+        let db =   Firestore.firestore()
+        
+        let docRef = db.collection("Books").document("30zoFV4ofvrL3olt0gVC")
 
-        for _ in 0...10 {
-            
-        }
-    }
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                print(document.data())
+                let json = JSON(document.data())
+                print(json)
+                print(json["publicationYear"].intValue)
+                print(json["publicationYear"])
+                print(json["name"])
+                print(json["name"].stringValue)
+
+            } else {
+                print("Document does not exist")
+            }
+        }    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
