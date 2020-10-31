@@ -3,7 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=swift,macos
 
 #Firebase
-GoogleService-Info.plist
+BookList/GoogleService-Info.plist
 
 ### macOS ###
 # General
