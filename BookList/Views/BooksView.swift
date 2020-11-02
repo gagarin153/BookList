@@ -1,11 +1,6 @@
-//
-//  BooksView.swift
-//  BookList
-//
-//  Created by Sultan on 27.10.2020.
-//
-
 import UIKit
+import Firebase
+import SwiftyJSON
 
 class BooksView: UIView {
     
@@ -41,8 +36,28 @@ class BooksView: UIView {
         return v
     }()
     
+    var jsonArray = [JSON]()
+    var array = [String]()
+
+    var bookJason: JSON!
+    
     override init(frame: CGRect){
         super.init(frame: frame)
+        
+        let db =   Firestore.firestore()
+//        let docRef2 = db.collection("Books").limit(to: 1).getDocuments() { (querySnapshot, err) in
+//            if let err = err {
+//                print("Error getting documents: \(err)")
+//            } else {
+//                print(querySnapshot!.documents.count)
+//                for document in querySnapshot!.documents {
+//                    print("\(document.documentID) => \(document.data())")
+//                    self.array.append(document.documentID)
+//                    self.jsonArray.append(JSON(document.data()))
+//                }
+//            }
+//        }
+
     }
     
     init(description text: String) {
@@ -50,6 +65,7 @@ class BooksView: UIView {
         descriptionLabel.text = text
         setUpViews()
         setUpConstraints()
+        
     }
     
     private func setUpViews() {
@@ -80,7 +96,7 @@ class BooksView: UIView {
         containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-                
+        
         collectionView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
@@ -101,6 +117,17 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCollectionViewCell.reuseIdentifier, for: indexPath) as? BookCollectionViewCell
         
+        
+       let   imageURL = URL(string:"https://firebasestorage.googleapis.com/v0/b/booklist-1cea6.appspot.com/o/BooksImages%2Fcover1__w340.jpg?alt=media&token=514e6720-1157-405f-97dd-8061036bc3fc")
+
+        let queue = DispatchQueue.global(qos: .utility)
+        queue.async {
+            guard let url = imageURL, let imageData = try? Data(contentsOf: url) else { return }
+            DispatchQueue.main.async {
+                cell?.imageView.image = UIImage(data: imageData)
+            }
+        }
+        cell?.textLabel.text = "Преступление и наказание"
         return cell ?? UICollectionViewCell()
     }
     

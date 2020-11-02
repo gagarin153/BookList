@@ -10,7 +10,7 @@ import UIKit
 class BookCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "BookCell"
     
-    private let imageView: UIImageView = {
+     let imageView: UIImageView = {
         let i = UIImageView()
         i.backgroundColor = .systemIndigo
         i.translatesAutoresizingMaskIntoConstraints = false
@@ -18,7 +18,7 @@ class BookCollectionViewCell: UICollectionViewCell {
         return i
     }()
     
-    private let textLabel: UILabel = {
+     let textLabel: UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: "Heiti TC", size: 11)
