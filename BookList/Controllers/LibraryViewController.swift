@@ -11,8 +11,16 @@ class LibraryViewController: UIViewController {
     private let topBooksView = BooksView(description: "Топ 100")
     private let editorChoiceBooksView = BooksView(description: "Выбор редакции")
     private let db = Firestore.firestore()
-    private var topBooksJSON = [JSON]()
-    private var editorChoiceBooksJSON = [JSON]()
+    private var topBooksJSONArray = [JSON]() {
+        didSet {
+            self.topBooksView.setBooks(books: self.topBooksJSONArray)
+        }
+    }
+    private var editorChoiceBooksJSONArray = [JSON]() {
+        didSet {
+            self.editorChoiceBooksView.setBooks(books: self.editorChoiceBooksJSONArray)
+        }
+    }
     private lazy var activityIndicatorViewConstraints = [
         activityIndicatorView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
         activityIndicatorView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
@@ -25,10 +33,12 @@ class LibraryViewController: UIViewController {
         setUpView()
         setUpActivityIndicatorView()
         setUpNavigationController()
+        fetchDataRequest()
         delay(3) {
             self.deactivateConstraint()
         }
-        fetchDataRequest()
+        self.setUpViewsConstraints()
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -62,44 +72,41 @@ class LibraryViewController: UIViewController {
             closure()
         }
     }
-
+    
     private func deactivateConstraint() {
         activityIndicator.stopAnimating()
         NSLayoutConstraint.deactivate(activityIndicatorViewConstraints)
     }
     
     private func fetchDataRequest(){
-        let group = DispatchGroup()
-        
-        group.enter()
+     
+        self.db.collection("Books").limit(to: 6).getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    self.topBooksJSONArray.append(JSON(document.data()))
+                }
+            }
+        }
         
         self.db.collection("Editor choice").limit(to: 1).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    //self.db.collection("Books").whereField(, isEqualTo: document)
-                    //self.db.document(<#T##documentPath: String##String#>)
+                    let ref = document.get("book") as? DocumentReference
+                    ref?.getDocument { (bookDocument, error) in
+                        if let bookDocument = bookDocument, bookDocument.exists {
+                            self.editorChoiceBooksJSONArray.append(JSON( bookDocument.data()!))
+                        } else {
+                            print("Document does not exist")
+                        }
+                    }
                 }
             }
         }
         
-        self.db.collection("Books").limit(to: 6).getDocuments { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    self.topBooksJSON.append(JSON(document.data()))
-                }
-            }
-            group.leave()
-        }
-        
-        group.notify(queue: .main) {
-            self.topBooksView.setBooks(books: self.topBooksJSON)
-            self.editorChoiceBooksView.setBooks(books: self.topBooksJSON)
-            self.setUpViewsConstraints()
-        }
     }
     
     private func setUpView() {
@@ -110,7 +117,7 @@ class LibraryViewController: UIViewController {
         
         self.view.backgroundColor = .softGray
         self.view.addSubview(activityIndicatorView)
-
+        
     }
     
     private func setUpNavigationController() {

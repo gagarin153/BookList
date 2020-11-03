@@ -102,7 +102,7 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return books.count > 0 ? 6 : 1
+        return  books.count <= 6 ? books.count : 6
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
