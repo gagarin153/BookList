@@ -4,5 +4,6 @@ platform :ios, '13.0'
 target 'BookList' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
   pod 'SwiftyJSON', '~> 4.0'
 end

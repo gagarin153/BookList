@@ -5,20 +5,29 @@ import SwiftyJSON
 class LibraryViewController: UIViewController {
     
     private let activityIndicator = UIActivityIndicatorView()
+    private let activityIndicatorView = UIView()
     private let scrollView = UIScrollView()
     private let intrestingView = IntrestingView()
-    private let topHundredBooksView = BooksView(description: "Топ 100")
+    private let topBooksView = BooksView(description: "Топ 100")
     private let editorChoiceBooksView = BooksView(description: "Выбор редакции")
     private let db = Firestore.firestore()
-    private var jsonArray = [JSON]()
-    
+    private var topBooksJSON = [JSON]()
+    private var editorChoiceBooksJSON = [JSON]()
+    private lazy var activityIndicatorViewConstraints = [
+        activityIndicatorView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+        activityIndicatorView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+        activityIndicatorView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+        activityIndicatorView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpView()
-        setUpActivityIndicator()
+        setUpActivityIndicatorView()
         setUpNavigationController()
+        delay(3) {
+            self.deactivateConstraint()
+        }
         fetchDataRequest()
     }
     
@@ -33,46 +42,75 @@ class LibraryViewController: UIViewController {
         setUpBooksViewConstraint()
     }
     
-    private func setUpActivityIndicator() {
+    private func setUpActivityIndicatorView() {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.backgroundColor = .softGray
+        activityIndicatorView.addSubview(activityIndicator)
+        
+        activityIndicator.centerYAnchor.constraint(equalTo: self.activityIndicatorView.centerYAnchor).isActive = true
+        activityIndicator.centerXAnchor.constraint(equalTo: self.activityIndicatorView.centerXAnchor).isActive = true
+        
+        NSLayoutConstraint.activate(activityIndicatorViewConstraints)
+        
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
+    }
+    
+    private func delay(_ delay: Int, closure: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
+            closure()
+        }
+    }
+
+    private func deactivateConstraint() {
+        activityIndicator.stopAnimating()
+        NSLayoutConstraint.deactivate(activityIndicatorViewConstraints)
     }
     
     private func fetchDataRequest(){
         let group = DispatchGroup()
         
         group.enter()
-        self.db.collection("Books").limit(to: 15).getDocuments { (querySnapshot, err) in
+        
+        self.db.collection("Editor choice").limit(to: 1).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    self.jsonArray.append(JSON(document.data()))
+                    //self.db.collection("Books").whereField(, isEqualTo: document)
+                    //self.db.document(<#T##documentPath: String##String#>)
+                }
+            }
+        }
+        
+        self.db.collection("Books").limit(to: 6).getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    self.topBooksJSON.append(JSON(document.data()))
                 }
             }
             group.leave()
         }
         
         group.notify(queue: .main) {
-            self.activityIndicator.stopAnimating()
-            self.activityIndicator.isHidden = true
+            self.topBooksView.setBooks(books: self.topBooksJSON)
+            self.editorChoiceBooksView.setBooks(books: self.topBooksJSON)
             self.setUpViewsConstraints()
-
-            print(self.jsonArray)
         }
     }
     
     private func setUpView() {
-        self.view.addSubview(activityIndicator)
         self.view.addSubview(scrollView)
         self.scrollView.addSubview(intrestingView)
-        self.scrollView.addSubview(topHundredBooksView)
+        self.scrollView.addSubview(topBooksView)
         self.scrollView.addSubview(editorChoiceBooksView)
         
         self.view.backgroundColor = .softGray
+        self.view.addSubview(activityIndicatorView)
+
     }
     
     private func setUpNavigationController() {
@@ -97,12 +135,12 @@ class LibraryViewController: UIViewController {
     }
     
     private func setUpBooksViewConstraint() {
-        topHundredBooksView.topAnchor.constraint(equalTo: self.intrestingView.bottomAnchor, constant: 20).isActive = true
-        topHundredBooksView.leadingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
-        topHundredBooksView.trailingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
-        topHundredBooksView.heightAnchor.constraint(equalToConstant: 220).isActive = true
+        topBooksView.topAnchor.constraint(equalTo: self.intrestingView.bottomAnchor, constant: 20).isActive = true
+        topBooksView.leadingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
+        topBooksView.trailingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
+        topBooksView.heightAnchor.constraint(equalToConstant: 220).isActive = true
         
-        editorChoiceBooksView.topAnchor.constraint(equalTo: self.topHundredBooksView.bottomAnchor, constant: 20).isActive = true
+        editorChoiceBooksView.topAnchor.constraint(equalTo: self.topBooksView.bottomAnchor, constant: 20).isActive = true
         editorChoiceBooksView.leadingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
         editorChoiceBooksView.trailingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
         editorChoiceBooksView.heightAnchor.constraint(equalToConstant: 220).isActive = true

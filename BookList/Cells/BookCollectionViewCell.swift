@@ -1,28 +1,21 @@
-//
-//  BookCollectionViewCell.swift
-//  BookList
-//
-//  Created by Sultan on 27.10.2020.
-//
-
 import UIKit
 
 class BookCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "BookCell"
     
-     let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let i = UIImageView()
-        i.backgroundColor = .systemIndigo
+        i.backgroundColor = .white
         i.translatesAutoresizingMaskIntoConstraints = false
         i.layer.cornerRadius = 10.0
         return i
     }()
     
-     let textLabel: UILabel = {
+     private let textLabel: UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: "Heiti TC", size: 11)
-        l.text = "Преступление и наказание"
+        l.text = "Книга"
         l.numberOfLines = 0
         l.textAlignment = .center
         return l
@@ -36,6 +29,15 @@ class BookCollectionViewCell: UICollectionViewCell {
         self.addSubview(textLabel)
         
         setUpConstaints()
+    }
+    
+    
+    func setCellDescription(with text: String) {
+        textLabel.text = text
+    }
+    
+    func setCellImage(with image: UIImage) {
+        imageView.image = image
     }
     
     private func setUpConstaints() {        

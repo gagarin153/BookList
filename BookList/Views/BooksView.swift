@@ -4,6 +4,9 @@ import SwiftyJSON
 
 class BooksView: UIView {
     
+    private var books = [JSON]()
+    private let storage = Storage.storage()
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -36,36 +39,27 @@ class BooksView: UIView {
         return v
     }()
     
-    var jsonArray = [JSON]()
-    var array = [String]()
-
     var bookJason: JSON!
     
     override init(frame: CGRect){
         super.init(frame: frame)
-        
-        let db =   Firestore.firestore()
-//        let docRef2 = db.collection("Books").limit(to: 1).getDocuments() { (querySnapshot, err) in
-//            if let err = err {
-//                print("Error getting documents: \(err)")
-//            } else {
-//                print(querySnapshot!.documents.count)
-//                for document in querySnapshot!.documents {
-//                    print("\(document.documentID) => \(document.data())")
-//                    self.array.append(document.documentID)
-//                    self.jsonArray.append(JSON(document.data()))
-//                }
-//            }
-//        }
-
     }
     
     init(description text: String) {
         self.init()
-        descriptionLabel.text = text
-        setUpViews()
-        setUpConstraints()
+        self.descriptionLabel.text = text
+        self.setUpViews()
+        self.setUpConstraints()
         
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setBooks(books: [JSON]) {
+        self.books = books
+        self.collectionView.reloadData()
     }
     
     private func setUpViews() {
@@ -81,9 +75,6 @@ class BooksView: UIView {
         collectionView.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: BookCollectionViewCell.reuseIdentifier)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     private  func setUpConstraints() {
         descriptionLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -111,23 +102,32 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return books.count > 0 ? 6 : 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+                
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCollectionViewCell.reuseIdentifier, for: indexPath) as? BookCollectionViewCell
         
-        
-       let   imageURL = URL(string:"https://firebasestorage.googleapis.com/v0/b/booklist-1cea6.appspot.com/o/BooksImages%2Fcover1__w340.jpg?alt=media&token=514e6720-1157-405f-97dd-8061036bc3fc")
+        let storageRef = storage.reference()
+        let bookRef = storageRef.child(books[indexPath.row]["imagePath"].stringValue)
 
-        let queue = DispatchQueue.global(qos: .utility)
-        queue.async {
-            guard let url = imageURL, let imageData = try? Data(contentsOf: url) else { return }
-            DispatchQueue.main.async {
-                cell?.imageView.image = UIImage(data: imageData)
-            }
+        bookRef.downloadURL { url, error in
+          if let error = error {
+            print(error.localizedDescription)
+          } else {
+            let queue = DispatchQueue.global(qos: .utility)
+                  queue.async {
+                      guard let url = url, let imageData = try? Data(contentsOf: url) else { return }
+                      DispatchQueue.main.async {
+                        
+                        cell?.setCellImage(with: UIImage(data: imageData)!)
+                      }
+                  }
+          }
         }
-        cell?.textLabel.text = "Преступление и наказание"
+        
+        cell?.setCellDescription(with: books[indexPath.row]["name"].stringValue)
         return cell ?? UICollectionViewCell()
     }
     
