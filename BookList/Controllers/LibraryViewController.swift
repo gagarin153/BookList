@@ -11,16 +11,8 @@ class LibraryViewController: UIViewController {
     private let topBooksView = BooksView(description: "Топ 100")
     private let editorChoiceBooksView = BooksView(description: "Выбор редакции")
     private let db = Firestore.firestore()
-    private var topBooksJSONArray = [JSON]() {
-        didSet {
-            self.topBooksView.setBooks(books: self.topBooksJSONArray)
-        }
-    }
-    private var editorChoiceBooksJSONArray = [JSON]() {
-        didSet {
-            self.editorChoiceBooksView.setBooks(books: self.editorChoiceBooksJSONArray)
-        }
-    }
+    private var topBooksJSONArray = [JSON]()
+    private var editorChoiceBooksJSONArray = [JSON]()
     private lazy var activityIndicatorViewConstraints = [
         activityIndicatorView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
         activityIndicatorView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
@@ -37,8 +29,8 @@ class LibraryViewController: UIViewController {
         delay(3) {
             self.deactivateConstraint()
         }
-        self.setUpViewsConstraints()
-
+        setUpViewsConstraints()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -79,34 +71,54 @@ class LibraryViewController: UIViewController {
     }
     
     private func fetchDataRequest(){
-     
+        
+        let group1 = DispatchGroup()
+        let group2 = DispatchGroup()
+        
+        group1.enter()
         self.db.collection("Books").limit(to: 6).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                for document in querySnapshot!.documents {
+                for  document in querySnapshot!.documents {
                     self.topBooksJSONArray.append(JSON(document.data()))
-                }
-            }
-        }
-        
-        self.db.collection("Editor choice").limit(to: 1).getDocuments { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let ref = document.get("book") as? DocumentReference
-                    ref?.getDocument { (bookDocument, error) in
-                        if let bookDocument = bookDocument, bookDocument.exists {
-                            self.editorChoiceBooksJSONArray.append(JSON( bookDocument.data()!))
-                        } else {
-                            print("Document does not exist")
-                        }
+                    if self.topBooksJSONArray.count == querySnapshot!.documents.count {
+                        group1.leave()
                     }
                 }
             }
         }
         
+        group2.enter()
+        self.db.collection("Editor choice").limit(to: 1).getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                print(querySnapshot!.documents.count)
+                for document in querySnapshot!.documents {
+                    let ref = document.get("book") as? DocumentReference
+                    ref?.getDocument { (bookDocument, error) in
+                        if let bookDocument = bookDocument, bookDocument.exists {
+                            self.editorChoiceBooksJSONArray.append(JSON( bookDocument.data()!))
+                            if self.editorChoiceBooksJSONArray.count == querySnapshot!.documents.count {
+                                group2.leave()
+                            }
+                        } else {
+                            print("Document does not exist")
+                        }
+                    }
+                    
+                }
+            }
+        }
+        
+        group1.notify(queue: .main){
+            self.topBooksView.setBooks(books: self.topBooksJSONArray)
+        }
+        
+        group2.notify(queue: .main){
+            self.editorChoiceBooksView.setBooks(books: self.editorChoiceBooksJSONArray)
+        }
     }
     
     private func setUpView() {
