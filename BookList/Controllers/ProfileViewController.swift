@@ -12,6 +12,17 @@ class ProfileViewController: UIViewController {
         return label
     }()
     
+    private let  descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        let title = "Сохрани понравившиеся книги"
+        let titleTextSize: CGFloat = 25.0
+        let textAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: titleTextSize)]
+        label.attributedText = NSAttributedString(string: title, attributes: textAttribute)
+        return label
+    }()
+    
     private let signInButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -33,12 +44,15 @@ class ProfileViewController: UIViewController {
     }
     
     private func setUpConstaints() {
-        [self.titleLabel, self.signInButton].forEach { self.view.addSubview($0) }
+        [self.titleLabel, self.descriptionLabel, self.signInButton].forEach { self.view.addSubview($0) }
         
-        self.titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 200.0).isActive = true
+        self.titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 160.0).isActive = true
         self.titleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-
-        self.signInButton.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 40.0).isActive = true
+        
+        self.descriptionLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 10.0).isActive = true
+        self.descriptionLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.signInButton.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 30.0).isActive = true
         self.signInButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.signInButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         self.signInButton.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
@@ -57,6 +71,8 @@ class ProfileViewController: UIViewController {
         }
         self.signInButton.backgroundColor = .black
         
+        let detailVC = UINavigationController(rootViewController: SignInViewController())
+        self.showDetailViewController(detailVC, sender: self)
     }
     
     @objc private func signInButtonCancelTapped(_ sender: UIButton) {

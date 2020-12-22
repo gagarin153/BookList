@@ -27,13 +27,13 @@ class IntrestingView: UIView {
     }()
     
     private  let nextButton: UIButton = {
-        let b = UIButton()
-        b.translatesAutoresizingMaskIntoConstraints = false
-        b.setTitle("Далее", for: .normal)
-        b.setTitleColor(.black, for: .normal)
-        b.layer.cornerRadius = 10.0
-        b.backgroundColor = .whiteGray
-        return b
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Далее", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 10.0
+        button.backgroundColor = .black  //.whiteGray
+        return button
     }()
     
     override init(frame: CGRect){

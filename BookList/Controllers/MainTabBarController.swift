@@ -4,8 +4,12 @@ class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setUpTabBar()
+        self.tabBar.isTranslucent = false
+        self.tabBar.tintColor = .white
+        self.tabBar.barTintColor = .black
+//        tabBar.tintColor = .green
+//        tabBar.unselectedItemTintColor = .blue
+        self.setUpTabBar()
     }
     
     func setUpTabBar() {
