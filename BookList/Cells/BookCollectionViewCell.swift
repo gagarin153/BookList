@@ -1,4 +1,7 @@
 import UIKit
+import Firebase
+import Kingfisher
+
 
 class BookCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "BookCell"
@@ -32,13 +35,21 @@ class BookCollectionViewCell: UICollectionViewCell {
     }
     
     
-    func setCellDescription(with text: String) {
+    func setCell(with text: String, imagePath: String) {
         textLabel.text = text
+        let storageRef = Storage.storage().reference()
+        let imageRef = storageRef.child(imagePath)
+
+        imageRef.downloadURL { url, error in
+            print(url)
+          if let error = error {
+            print(error.localizedDescription)
+          } else {
+            self.imageView.kf.setImage(with: url)
+          }
+        }
     }
     
-    func setCellImage(with image: UIImage) {
-        imageView.image = image
-    }
     
     private func setUpConstaints() {        
         imageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true

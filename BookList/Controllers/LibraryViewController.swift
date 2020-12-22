@@ -1,6 +1,5 @@
 import UIKit
 import Firebase
-import SwiftyJSON
 
 class LibraryViewController: UIViewController {
     
@@ -10,11 +9,9 @@ class LibraryViewController: UIViewController {
     private let intrestingView = IntrestingView()
     private let topBooksView = BooksView(description: "Топ 100")
     private let editorChoiceBooksView = BooksView(description: "Выбор редакции")
-    private let db = Firestore.firestore()
-    private var topBooksJSONArray = [JSON]()
-    private var editorChoiceBooksJSONArray = [JSON]()
-    private var generalBooks = [Book]()
-    private var editorChoiceBooks = [Book]()
+//
+//    private var generalBooks = [Book]()
+//    private var editorChoiceBooks = [Book]()
     private lazy var activityIndicatorViewConstraints = [
         activityIndicatorView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
         activityIndicatorView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),

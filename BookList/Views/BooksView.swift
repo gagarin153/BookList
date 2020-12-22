@@ -1,6 +1,5 @@
 import UIKit
 import Firebase
-import SwiftyJSON
 
 class BooksView: UIView {
     
@@ -38,9 +37,7 @@ class BooksView: UIView {
         v.layer.cornerRadius = 10.0
         return v
     }()
-    
-    var bookJason: JSON!
-    
+        
     override init(frame: CGRect){
         super.init(frame: frame)
     }
@@ -107,28 +104,9 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCollectionViewCell.reuseIdentifier, for: indexPath) as? BookCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCollectionViewCell.reuseIdentifier, for: indexPath) as? BookCollectionViewCell else { return  UICollectionViewCell()}
         
-        let storageRef = storage.reference()
-        let bookRef = storageRef.child(books[indexPath.row].imagePath)
-
-        
-        bookRef.downloadURL { url, error in
-            print(url)
-          if let error = error {
-            print(error.localizedDescription)
-          } else {
-            let queue = DispatchQueue.global(qos: .utility)
-                  queue.async {
-                      guard let url = url, let imageData = try? Data(contentsOf: url) else { return }
-                      DispatchQueue.main.async {
-                        cell?.setCellImage(with: UIImage(data: imageData)!)
-                      }
-                  }
-          }
-        }
-        
-        cell?.setCellDescription(with: books[indexPath.row].name)
+        cell.setCell(with: books[indexPath.item].name, imagePath: books[indexPath.item].imagePath)
         return cell ?? UICollectionViewCell()
     }
     

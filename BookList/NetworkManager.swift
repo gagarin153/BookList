@@ -1,6 +1,6 @@
 import Foundation
 import Firebase
-import SwiftyJSON
+
 
 enum NetworkError: Error {
     case invalidURL

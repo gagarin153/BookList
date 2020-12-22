@@ -5,5 +5,5 @@ target 'BookList' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
-  pod 'SwiftyJSON', '~> 4.0'
+  pod 'Kingfisher'
 end
