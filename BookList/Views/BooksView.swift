@@ -4,7 +4,7 @@ import SwiftyJSON
 
 class BooksView: UIView {
     
-    private var books = [JSON]()
+    private var books = [Book]()
     private let storage = Storage.storage()
     
     private let collectionView: UICollectionView = {
@@ -57,7 +57,7 @@ class BooksView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setBooks(books: [JSON]) {
+    func setBooks(books: [Book]) {
         self.books = books
         self.collectionView.reloadData()
     }
@@ -110,9 +110,11 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCollectionViewCell.reuseIdentifier, for: indexPath) as? BookCollectionViewCell
         
         let storageRef = storage.reference()
-        let bookRef = storageRef.child(books[indexPath.row]["imagePath"].stringValue)
+        let bookRef = storageRef.child(books[indexPath.row].imagePath)
 
+        
         bookRef.downloadURL { url, error in
+            print(url)
           if let error = error {
             print(error.localizedDescription)
           } else {
@@ -120,14 +122,13 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
                   queue.async {
                       guard let url = url, let imageData = try? Data(contentsOf: url) else { return }
                       DispatchQueue.main.async {
-                        
                         cell?.setCellImage(with: UIImage(data: imageData)!)
                       }
                   }
           }
         }
         
-        cell?.setCellDescription(with: books[indexPath.row]["name"].stringValue)
+        cell?.setCellDescription(with: books[indexPath.row].name)
         return cell ?? UICollectionViewCell()
     }
     
