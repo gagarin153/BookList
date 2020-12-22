@@ -22,12 +22,12 @@ class BooksView: UIView {
     }()
     
     private let fullListLabel: UILabel = {
-        let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.textColor = .systemBlue
-        l.text = "см. все"
-        l.isUserInteractionEnabled = true
-        return l
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .systemBlue
+        label.text = "см. все"
+        label.isUserInteractionEnabled = true
+        return label
     }()
     
     private  let containerView: UIView = {
@@ -60,11 +60,11 @@ class BooksView: UIView {
     }
     
     private func setUpViews() {
-        self.backgroundColor = .clear
-        self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(descriptionLabel)
         self.addSubview(fullListLabel)
         self.addSubview(containerView)
+        self.backgroundColor = .clear
+        self.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(collectionView)
         
         collectionView.dataSource = self
@@ -107,7 +107,7 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCollectionViewCell.reuseIdentifier, for: indexPath) as? BookCollectionViewCell else { return  UICollectionViewCell()}
         
         cell.setCell(with: books[indexPath.item].name, imagePath: books[indexPath.item].imagePath)
-        return cell ?? UICollectionViewCell()
+        return cell 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

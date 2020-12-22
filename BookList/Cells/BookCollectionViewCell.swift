@@ -6,60 +6,56 @@ import Kingfisher
 class BookCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "BookCell"
     
-    private let imageView: UIImageView = {
-        let i = UIImageView()
-        i.backgroundColor = .white
-        i.translatesAutoresizingMaskIntoConstraints = false
-        i.layer.cornerRadius = 10.0
-        return i
+    private let bookImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = .softGray
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
-     private let textLabel: UILabel = {
-        let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.font = UIFont(name: "Heiti TC", size: 11)
-        l.text = "Книга"
-        l.numberOfLines = 0
-        l.textAlignment = .center
-        return l
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "Heiti TC", size: 11)
+        label.text = "Книга"
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
     }()
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        self.addSubview(imageView)
-        self.addSubview(textLabel)
-        
-        setUpConstaints()
+        self.setUpConstaints()
     }
     
     
     func setCell(with text: String, imagePath: String) {
-        textLabel.text = text
+        nameLabel.text = text
         let storageRef = Storage.storage().reference()
         let imageRef = storageRef.child(imagePath)
-
+        
         imageRef.downloadURL { url, error in
-            print(url)
-          if let error = error {
-            print(error.localizedDescription)
-          } else {
-            self.imageView.kf.setImage(with: url)
-          }
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                self.bookImageView.kf.setImage(with: url)
+            }
         }
     }
     
     
-    private func setUpConstaints() {        
-        imageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+    private func setUpConstaints() {
+        [self.bookImageView, self.nameLabel].forEach { self.contentView.addSubview($0) }
         
-        textLabel.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 10).isActive = true
-        textLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        textLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        self.bookImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+        self.bookImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
+        self.bookImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -15).isActive = true
+        self.bookImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        self.nameLabel.topAnchor.constraint(equalTo: self.bookImageView.bottomAnchor, constant: 10).isActive = true
+        self.nameLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true
+        self.nameLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
     }
     
     required init?(coder: NSCoder) {

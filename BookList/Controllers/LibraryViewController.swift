@@ -9,9 +9,7 @@ class LibraryViewController: UIViewController {
     private let intrestingView = IntrestingView()
     private let topBooksView = BooksView(description: "Топ 100")
     private let editorChoiceBooksView = BooksView(description: "Выбор редакции")
-//
-//    private var generalBooks = [Book]()
-//    private var editorChoiceBooks = [Book]()
+
     private lazy var activityIndicatorViewConstraints = [
         activityIndicatorView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
         activityIndicatorView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
@@ -21,14 +19,15 @@ class LibraryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpView()
-        setUpActivityIndicatorView()
-        setUpNavigationController()
-        fetchDataRequest()
-        delay(3) {
-            self.deactivateConstraint()
-        }
-        setUpViewsConstraints()
+        self.setUpView()
+        self.setUpActivityIndicatorView()
+        self.setUpNavigationController()
+        self.setUpViewsConstraints()
+        self.fetchDataRequest()
+//        delay(3) {
+//            self.deactivateActivityIndicatorConstraint()
+//        }
+        self.setUpViewsConstraints()
         
     }
     
@@ -64,12 +63,16 @@ class LibraryViewController: UIViewController {
         }
     }
     
-    private func deactivateConstraint() {
-        activityIndicator.stopAnimating()
+    private func deactivateActivityIndicatorConstraint() {
+        self.activityIndicator.stopAnimating()
         NSLayoutConstraint.deactivate(activityIndicatorViewConstraints)
     }
     
     private func fetchDataRequest(){
+        
+        let dispatchGroup = DispatchGroup()
+
+        dispatchGroup.enter()
         NetworkManager.shared.downloadGeneralBooks { (result) in
             switch result  {
             case .success(let books):
@@ -79,8 +82,10 @@ class LibraryViewController: UIViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             }
+            dispatchGroup.leave()
         }
         
+        dispatchGroup.enter()
         NetworkManager.shared.downloadEditorChoiceBooks { (result) in
             switch result  {
             case .success(let books):
@@ -90,6 +95,11 @@ class LibraryViewController: UIViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             }
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: DispatchQueue.main) {
+            self.deactivateActivityIndicatorConstraint()
         }
     }
     
