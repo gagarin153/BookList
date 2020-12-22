@@ -37,31 +37,31 @@ class LibraryViewController: UIViewController {
     }
     
     private func setUpViewsConstraints() {
-        setUpScrollViewConstraint()
-        setUpIntrestingViewConstraint()
-        setUpBooksViewConstraint()
+        self.setUpScrollViewConstraint()
+        self.setUpIntrestingViewConstraint()
+        self.setUpBooksViewConstraint()
     }
     
     private func setUpActivityIndicatorView() {
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicatorView.backgroundColor = .softGray
-        activityIndicatorView.addSubview(activityIndicator)
+        self.activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        self.activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        self.activityIndicatorView.backgroundColor = .softGray
+        self.activityIndicatorView.addSubview(activityIndicator)
         
-        activityIndicator.centerYAnchor.constraint(equalTo: self.activityIndicatorView.centerYAnchor).isActive = true
-        activityIndicator.centerXAnchor.constraint(equalTo: self.activityIndicatorView.centerXAnchor).isActive = true
+        self.activityIndicator.centerYAnchor.constraint(equalTo: self.activityIndicatorView.centerYAnchor).isActive = true
+        self.activityIndicator.centerXAnchor.constraint(equalTo: self.activityIndicatorView.centerXAnchor).isActive = true
         
         NSLayoutConstraint.activate(activityIndicatorViewConstraints)
         
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
+        self.activityIndicator.isHidden = false
+        self.activityIndicator.startAnimating()
     }
     
-    private func delay(_ delay: Int, closure: @escaping () -> ()) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
-            closure()
-        }
-    }
+//    private func delay(_ delay: Int, closure: @escaping () -> ()) {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
+//            closure()
+//        }
+//    }
     
     private func deactivateActivityIndicatorConstraint() {
         self.activityIndicator.stopAnimating()
@@ -105,13 +105,10 @@ class LibraryViewController: UIViewController {
     
     private func setUpView() {
         self.view.addSubview(scrollView)
-        self.scrollView.addSubview(intrestingView)
-        self.scrollView.addSubview(topBooksView)
-        self.scrollView.addSubview(editorChoiceBooksView)
-        
+        [self.intrestingView, self.topBooksView, self.editorChoiceBooksView].forEach { self.scrollView.addSubview($0) }
         self.view.backgroundColor = .softGray
-        self.view.addSubview(activityIndicatorView)
-        
+        self.view.addSubview(self.activityIndicatorView)
+        self.scrollView.showsVerticalScrollIndicator = false
     }
     
     private func setUpNavigationController() {

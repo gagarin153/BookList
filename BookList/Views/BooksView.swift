@@ -21,13 +21,12 @@ class BooksView: UIView {
         return l
     }()
     
-    private let fullListLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .systemBlue
-        label.text = "см. все"
-        label.isUserInteractionEnabled = true
-        return label
+    private let fullListButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.setTitle("см. все", for: .normal)
+        return button
     }()
     
     private  let containerView: UIView = {
@@ -60,35 +59,34 @@ class BooksView: UIView {
     }
     
     private func setUpViews() {
-        self.addSubview(descriptionLabel)
-        self.addSubview(fullListLabel)
-        self.addSubview(containerView)
+        [self.descriptionLabel, self.fullListButton, self.containerView].forEach {self.addSubview($0)}
         self.backgroundColor = .clear
         self.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(collectionView)
+        self.containerView.addSubview(collectionView)
         
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: BookCollectionViewCell.reuseIdentifier)
+        self.collectionView.dataSource = self
+        self.collectionView.delegate = self
+        self.collectionView.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: BookCollectionViewCell.reuseIdentifier)
     }
     
     
     private  func setUpConstraints() {
-        descriptionLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         
-        fullListLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        fullListLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+        self.fullListButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        self.fullListButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
         
-        containerView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 5).isActive = true
-        containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        self.descriptionLabel.centerYAnchor.constraint(equalTo: self.fullListButton.centerYAnchor).isActive = true
+        self.descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         
-        collectionView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20).isActive = true
+        self.containerView.topAnchor.constraint(equalTo: self.fullListButton.bottomAnchor, constant: 5).isActive = true
+        self.containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        self.containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        self.containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
+        self.collectionView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20).isActive = true
+        self.collectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
+        self.collectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
+        self.collectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20).isActive = true
     }
 }
 
