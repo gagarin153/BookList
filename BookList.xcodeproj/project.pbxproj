@@ -9,11 +9,9 @@
 /* Begin PBXBuildFile section */
 		2F3630B2253498D80065FEEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3630B1253498D80065FEEA /* AppDelegate.swift */; };
 		2F3630B4253498D80065FEEA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3630B3253498D80065FEEA /* SceneDelegate.swift */; };
-		2F3630B9253498D80065FEEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F3630B7253498D80065FEEA /* Main.storyboard */; };
 		2F3630BB253498D90065FEEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F3630BA253498D90065FEEA /* Assets.xcassets */; };
 		2F3630BE253498D90065FEEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F3630BC253498D90065FEEA /* LaunchScreen.storyboard */; };
 		2F5F2A82254459C300C9F814 /* ArticleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */; };
-		2F63F7F6254E10B60018AAF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2F63F7F5254E10B60018AAF9 /* GoogleService-Info.plist */; };
 		2F90E13D2543069300536615 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E13C2543069300536615 /* MainTabBarController.swift */; };
 		2F90E142254306E900536615 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E141254306E900536615 /* LibraryViewController.swift */; };
 		2F90E146254306FA00536615 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E145254306FA00536615 /* SearchViewController.swift */; };
@@ -22,6 +20,7 @@
 		2F90E15D2543387600536615 /* IntrestingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E15C2543387600536615 /* IntrestingView.swift */; };
 		2F912924254834CF00B5D0B3 /* BooksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F912923254834CF00B5D0B3 /* BooksView.swift */; };
 		2F9129282548402000B5D0B3 /* BookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9129272548402000B5D0B3 /* BookCollectionViewCell.swift */; };
+		2FA921332592491D00DB5C8F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FA921322592491D00DB5C8F /* GoogleService-Info.plist */; };
 		80862130917CA9A9B95EB5F1 /* libPods-BookList.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55920080AEA443EFE60C8840 /* libPods-BookList.a */; };
 /* End PBXBuildFile section */
 
@@ -29,12 +28,10 @@
 		2F3630AE253498D80065FEEA /* BookList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F3630B1253498D80065FEEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2F3630B3253498D80065FEEA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		2F3630B8253498D80065FEEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2F3630BA253498D90065FEEA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2F3630BD253498D90065FEEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2F3630BF253498D90065FEEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCollectionViewCell.swift; sourceTree = "<group>"; };
-		2F63F7F5254E10B60018AAF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2F90E13C2543069300536615 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		2F90E141254306E900536615 /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		2F90E145254306FA00536615 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -43,6 +40,7 @@
 		2F90E15C2543387600536615 /* IntrestingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrestingView.swift; sourceTree = "<group>"; };
 		2F912923254834CF00B5D0B3 /* BooksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksView.swift; sourceTree = "<group>"; };
 		2F9129272548402000B5D0B3 /* BookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCollectionViewCell.swift; sourceTree = "<group>"; };
+		2FA921322592491D00DB5C8F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		44C7150E17834AAC931AA223 /* Pods-BookList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookList.debug.xcconfig"; path = "Target Support Files/Pods-BookList/Pods-BookList.debug.xcconfig"; sourceTree = "<group>"; };
 		55920080AEA443EFE60C8840 /* libPods-BookList.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BookList.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7744929D7444136899E41C67 /* Pods-BookList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookList.release.xcconfig"; path = "Target Support Files/Pods-BookList/Pods-BookList.release.xcconfig"; sourceTree = "<group>"; };
@@ -88,7 +86,7 @@
 				2F90E15B2543384F00536615 /* Views */,
 				2F90E14F25430BB400536615 /* Extensions */,
 				2F3630BF253498D90065FEEA /* Info.plist */,
-				2F63F7F5254E10B60018AAF9 /* GoogleService-Info.plist */,
+				2FA921322592491D00DB5C8F /* GoogleService-Info.plist */,
 			);
 			path = BookList;
 			sourceTree = "<group>";
@@ -96,7 +94,6 @@
 		2F3B02D72542FA6700ABE483 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				2F3630B7253498D80065FEEA /* Main.storyboard */,
 				2F3630BC253498D90065FEEA /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
@@ -226,9 +223,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F3630BE253498D90065FEEA /* LaunchScreen.storyboard in Resources */,
-				2F63F7F6254E10B60018AAF9 /* GoogleService-Info.plist in Resources */,
+				2FA921332592491D00DB5C8F /* GoogleService-Info.plist in Resources */,
 				2F3630BB253498D90065FEEA /* Assets.xcassets in Resources */,
-				2F3630B9253498D80065FEEA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,14 +294,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		2F3630B7253498D80065FEEA /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2F3630B8253498D80065FEEA /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		2F3630BC253498D90065FEEA /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
