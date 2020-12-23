@@ -166,6 +166,9 @@ PODS:
   - BoringSSL-GRPC/Interface (0.0.3)
   - Firebase/Analytics (6.23.0):
     - Firebase/Core
+  - Firebase/Auth (6.23.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 6.5.2)
   - Firebase/Core (6.23.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.4.2)
@@ -186,6 +189,12 @@ PODS:
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
+  - FirebaseAuth (6.5.2):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.6)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.5)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseAuthInterop (1.1.0)
   - FirebaseCore (6.6.7):
     - FirebaseCoreDiagnostics (~> 1.2)
@@ -280,6 +289,7 @@ PODS:
 
 DEPENDENCIES:
   - Firebase/Analytics
+  - Firebase/Auth
   - Firebase/Firestore
   - Firebase/Storage
   - Kingfisher
@@ -290,6 +300,7 @@ SPEC REPOS:
     - BoringSSL-GRPC
     - Firebase
     - FirebaseAnalytics
+    - FirebaseAuth
     - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseCoreDiagnostics
@@ -314,6 +325,7 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
   Firebase: 585ae467b3edda6a5444e788fda6888f024d8d6f
   FirebaseAnalytics: 558f7a03d19de451093032c806f39d5f9dff096e
+  FirebaseAuth: e50319ecc114acf93c2b9581e15d6604ddd7eeb2
   FirebaseAuthInterop: a0f37ae05833af156e72028f648d313f7e7592e9
   FirebaseCore: a2788a0d5f6c1dff17b8f79b4a73654a8d4bfdbd
   FirebaseCoreDiagnostics: b59c024493a409f8aecba02c99928d0d8431d159
@@ -333,6 +345,6 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
 
-PODFILE CHECKSUM: 8613f893c20b1435c326f85d9e8aa85d02207754
+PODFILE CHECKSUM: 74cbeedbb36edaddda3974ce98c83931096ded67
 
 COCOAPODS: 1.9.1

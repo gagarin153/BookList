@@ -9,16 +9,17 @@ class BooksView: UIView {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.backgroundColor = .clear
-        c.translatesAutoresizingMaskIntoConstraints = false
-        return c
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
     }()
     
     private let descriptionLabel: UILabel = {
-        let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
-        return l
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 16.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private let fullListButton: UIButton = {
@@ -30,11 +31,11 @@ class BooksView: UIView {
     }()
     
     private  let containerView: UIView = {
-        let v = UIView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.backgroundColor = .white
-        v.layer.cornerRadius = 10.0
-        return v
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 10.0
+        return view
     }()
         
     override init(frame: CGRect){

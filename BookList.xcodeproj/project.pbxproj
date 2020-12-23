@@ -13,6 +13,7 @@
 		2F3630BB253498D90065FEEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F3630BA253498D90065FEEA /* Assets.xcassets */; };
 		2F3630BE253498D90065FEEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F3630BC253498D90065FEEA /* LaunchScreen.storyboard */; };
 		2F5F2A82254459C300C9F814 /* ArticleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */; };
+		2F81E9ED2593643400EDA6C9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F81E9EC2593643400EDA6C9 /* User.swift */; };
 		2F90E13D2543069300536615 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E13C2543069300536615 /* MainTabBarController.swift */; };
 		2F90E142254306E900536615 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E141254306E900536615 /* LibraryViewController.swift */; };
 		2F90E146254306FA00536615 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E145254306FA00536615 /* SearchViewController.swift */; };
@@ -36,6 +37,8 @@
 		2F3630BD253498D90065FEEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2F3630BF253498D90065FEEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCollectionViewCell.swift; sourceTree = "<group>"; };
+		2F81E9E2259360BA00EDA6C9 /* BookList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookList.entitlements; sourceTree = "<group>"; };
+		2F81E9EC2593643400EDA6C9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2F90E13C2543069300536615 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		2F90E141254306E900536615 /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		2F90E145254306FA00536615 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -85,12 +88,12 @@
 		2F3630B0253498D80065FEEA /* BookList */ = {
 			isa = PBXGroup;
 			children = (
-				2FA9213725925C3300DB5C8F /* Book.swift */,
+				2F81E9E2259360BA00EDA6C9 /* BookList.entitlements */,
+				2F81E9EA259363F800EDA6C9 /* Models */,
 				2FA9213B25925F9700DB5C8F /* NetworkManager.swift */,
 				2F3B02D82542FA7F00ABE483 /* Supporting files */,
 				2F3B02D72542FA6700ABE483 /* Storyboards */,
 				2F90E13F254306A000536615 /* Controllers */,
-				2F56798D25481D6B00ADA235 /* Cells */,
 				2F90E15B2543384F00536615 /* Views */,
 				2F90E14F25430BB400536615 /* Extensions */,
 				2F3630BF253498D90065FEEA /* Info.plist */,
@@ -126,6 +129,15 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		2F81E9EA259363F800EDA6C9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2FA9213725925C3300DB5C8F /* Book.swift */,
+				2F81E9EC2593643400EDA6C9 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		2F90E13F254306A000536615 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +161,7 @@
 		2F90E15B2543384F00536615 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2F56798D25481D6B00ADA235 /* Cells */,
 				2F912923254834CF00B5D0B3 /* BooksView.swift */,
 				2F90E15C2543387600536615 /* IntrestingView.swift */,
 			);
@@ -294,6 +307,7 @@
 				2F9129282548402000B5D0B3 /* BookCollectionViewCell.swift in Sources */,
 				2F5F2A82254459C300C9F814 /* ArticleCollectionViewCell.swift in Sources */,
 				2F90E146254306FA00536615 /* SearchViewController.swift in Sources */,
+				2F81E9ED2593643400EDA6C9 /* User.swift in Sources */,
 				2F3630B2253498D80065FEEA /* AppDelegate.swift in Sources */,
 				2F90E13D2543069300536615 /* MainTabBarController.swift in Sources */,
 				2FA9213825925C3300DB5C8F /* Book.swift in Sources */,
@@ -439,6 +453,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BookList/BookList.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 93LQDKX637;
 				INFOPLIST_FILE = "$(SRCROOT)/BookList/Info.plist";
@@ -460,6 +475,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BookList/BookList.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 93LQDKX637;
 				INFOPLIST_FILE = "$(SRCROOT)/BookList/Info.plist";

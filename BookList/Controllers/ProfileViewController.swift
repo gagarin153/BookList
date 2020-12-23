@@ -43,6 +43,18 @@ class ProfileViewController: UIViewController {
         self.setUpConstaints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+        print("viewWillAppear")
+
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+      super.viewWillDisappear(animated)
+
+        print("viewWillDisappear")
+    }
+    
     private func setUpConstaints() {
         [self.titleLabel, self.descriptionLabel, self.signInButton].forEach { self.view.addSubview($0) }
         
