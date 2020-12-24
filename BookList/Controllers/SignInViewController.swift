@@ -1,8 +1,8 @@
 import UIKit
+import Firebase
 
 class SignInViewController: UIViewController {
     
-
     private let signInButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -10,15 +10,14 @@ class SignInViewController: UIViewController {
         button.setTitle("вход", for: .normal)
         let radius: CGFloat = 5.0
         button.layer.cornerRadius = radius
-//        button.addTarget(self, action: #selector(signUpButtonButtonStartTouch), for: .touchDown)
-//        button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
-//        button.addTarget(self, action: #selector(signUpButtonCancelTapped), for: .touchCancel)
-//        button.addTarget(self, action: #selector(signUpButtonDragAwayTapped), for: .touchDragExit)
+        button.addTarget(self, action: #selector(signInButtonStartTouch), for: .touchDown)
+        button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(signInButtonCancelTapped), for: .touchCancel)
+        button.addTarget(self, action: #selector(signInButtonDragAwayTapped), for: .touchDragExit)
         return button
     }()
     
     private let signUpButton: UIButton = {
-     //   let button = UIButton(type: .custom)
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .white
@@ -27,7 +26,7 @@ class SignInViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         let radius: CGFloat = 5.0
         button.layer.cornerRadius = radius
-        button.addTarget(self, action: #selector(signUpButtonButtonStartTouch), for: .touchDown)
+        button.addTarget(self, action: #selector(signUpButtonStartTouch), for: .touchDown)
         button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         button.addTarget(self, action: #selector(signUpButtonCancelTapped), for: .touchCancel)
         button.addTarget(self, action: #selector(signUpButtonDragAwayTapped), for: .touchDragExit)
@@ -41,10 +40,10 @@ class SignInViewController: UIViewController {
         button.setTitle("зарегистрировать", for: .normal)
         let radius: CGFloat = 5.0
         button.layer.cornerRadius = radius
-//        button.addTarget(self, action: #selector(signUpButtonButtonStartTouch), for: .touchDown)
-//        button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
-//        button.addTarget(self, action: #selector(signUpButtonCancelTapped), for: .touchCancel)
-//        button.addTarget(self, action: #selector(signUpButtonDragAwayTapped), for: .touchDragExit)
+        button.addTarget(self, action: #selector(confirmSignUpButtonStartTouch), for: .touchDown)
+        button.addTarget(self, action: #selector(confirmSignUpButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(confirmSignUpButtonCancelTapped), for: .touchCancel)
+        button.addTarget(self, action: #selector(confirmSignUpButtonDragAwayTapped), for: .touchDragExit)
         return button
     }()
     
@@ -53,7 +52,6 @@ class SignInViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = .white
         label.text = "Почта"
-        //label.backgroundColor = .black
         return label
     }()
     
@@ -61,7 +59,6 @@ class SignInViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = .white
-       // label.backgroundColor = .black
         label.text = "Пароль"
         return label
     }()
@@ -81,7 +78,7 @@ class SignInViewController: UIViewController {
         label.text = "Имя"
         return label
     }()
-
+    
     private let emailTextField: UITextField = {
         let textField =  UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -95,6 +92,7 @@ class SignInViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .white
         textField.placeholder = "Введите ваш пароль"
+        textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -103,6 +101,7 @@ class SignInViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .white
         textField.placeholder = "Повторите ваш пароль"
+        textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -113,7 +112,6 @@ class SignInViewController: UIViewController {
         textField.placeholder = "Введите ваше имя"
         return textField
     }()
-    
     
     private lazy var signInConstraints = [
         self.emailLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100.0),
@@ -138,7 +136,7 @@ class SignInViewController: UIViewController {
         self.signInButton.topAnchor.constraint(equalTo: self.passwordTextField.bottomAnchor, constant: 40.0),
         self.signInButton.widthAnchor.constraint(equalToConstant: 130.0),
         self.signInButton.heightAnchor.constraint(equalToConstant: 50.0),
-
+        
         self.signUpButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
         self.signUpButton.topAnchor.constraint(equalTo: self.signInButton.bottomAnchor, constant: 20.0),
         self.signUpButton.widthAnchor.constraint(equalToConstant: 130.0),
@@ -190,9 +188,7 @@ class SignInViewController: UIViewController {
         self.confirmSignUpButton.widthAnchor.constraint(equalToConstant: 180.0),
         self.confirmSignUpButton.heightAnchor.constraint(equalToConstant: 50.0),
     ]
-    
-    
-
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -206,6 +202,8 @@ class SignInViewController: UIViewController {
     private func setSignInWindow() {
         self.navigationItem.leftBarButtonItem = nil
         title = "Вход"
+        self.emailTextField.text = ""
+        self.passwordTextField.text = ""
         let image = UIImage(named: "CloseIconTemplate")?.withRenderingMode(.alwaysOriginal)
         let closeButton = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(closeButtonTapped))
         self.navigationItem.leftBarButtonItem  = closeButton
@@ -215,15 +213,17 @@ class SignInViewController: UIViewController {
     private func setSignUpWindow() {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Регистрация"
+        self.emailTextField.text = ""
+        self.passwordTextField.text = ""
         let image = UIImage(named: "backArrow")?.withRenderingMode(.alwaysOriginal)
         let backButton = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(arrowButtonTapped))
         self.navigationItem.leftBarButtonItems?.insert(backButton, at: 0)
         self.setUpSignUpConstraints()
     }
-        
+    
     private func setUpSignInConstraints() {
         NSLayoutConstraint.deactivate(self.signUpConstraints)
-
+        
         [self.confirmSignUpButton, self.nameLabel, self.nameTextField, self.repeatPasswordLabel, self.repeatPasswordTextField, self.confirmSignUpButton].forEach {$0.removeFromSuperview()}
         [ self.signInButton, self.signUpButton].forEach { self.view.addSubview($0)}
         
@@ -240,6 +240,16 @@ class SignInViewController: UIViewController {
         NSLayoutConstraint.activate(self.signUpConstraints)
     }
     
+    private func delay(_ delay: Int, closure: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
+            closure()
+        }
+    }
+    
+    @objc private func enableDrag() {
+        
+    }
+    
     @objc private func arrowButtonTapped() {
         self.hideKeyboard()
         self.setSignInWindow()
@@ -250,9 +260,9 @@ class SignInViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @objc private func signUpButtonButtonStartTouch (_ sender: UIButton) {
+    @objc private func signUpButtonStartTouch (_ sender: UIButton) {
         self.signUpButton.isExclusiveTouch = true
-    
+        
         UIView.animate(withDuration: 0.1) {
             sender.transform = .init(scaleX:0.9, y: 0.9)
         }
@@ -284,8 +294,147 @@ class SignInViewController: UIViewController {
         self.signUpButton.backgroundColor = .white
     }
     
+    
+    @objc private func signInButtonStartTouch (_ sender: UIButton) {
+        guard let emailText = self.emailTextField.text, let passwordText = self.passwordTextField.text, !passwordText.isEmpty, !emailText.isEmpty else { return }
+        
+        UIView.animate(withDuration: 0.1) {
+            sender.transform = .init(scaleX:0.9, y: 0.9)
+        }
+        self.signInButton.backgroundColor = .lightGray
+    }
+    
+    @objc private func signInButtonTapped (_ sender: UIButton) {
+        guard let emailText = self.emailTextField.text, let passwordText = self.passwordTextField.text, !passwordText.isEmpty, !emailText.isEmpty else { return }
+        
+        UIView.animate(withDuration: 0.1) {
+            sender.transform = .identity
+        }
+        self.signInButton.backgroundColor = .black
+        self.hideKeyboard()
+        Auth.auth().signIn(withEmail: emailText, password: passwordText) { user, error in
+            if let _ = error, user == nil {
+                let alert = UIAlertController(title: "Ошибка при входе",
+                                              message: "",
+                                              preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
+    @objc private func signInButtonCancelTapped(_ sender: UIButton) {
+        guard let emailText = self.emailTextField.text, let passwordText = self.passwordTextField.text, !passwordText.isEmpty, !emailText.isEmpty else { return }
+        
+        UIView.animate(withDuration: 0.1) {
+            sender.transform = .identity
+        }
+        self.signInButton.backgroundColor = .black
+    }
+    
+    @objc private func signInButtonDragAwayTapped(_ sender: UIButton) {
+        guard let emailText = self.emailTextField.text, let passwordText = self.passwordTextField.text, !passwordText.isEmpty, !emailText.isEmpty else { return }
+        
+        UIView.animate(withDuration: 0.1) {
+            sender.transform = .identity
+        }
+        self.signInButton.backgroundColor = .black
+    }
+    
+    @objc private func confirmSignUpButtonTapped(_ sender: UIButton) {
+        guard let emailText = self.emailTextField.text, let passwordText = self.passwordTextField.text, let nameText = self.nameTextField.text, let repeatPasswordText = self.repeatPasswordTextField.text, !passwordText.isEmpty, !emailText.isEmpty, !nameText.isEmpty, !repeatPasswordText.isEmpty  else { return }
+        
+        UIView.animate(withDuration: 0.1) {
+            sender.transform = .identity
+        }
+        
+        self.confirmSignUpButton.backgroundColor = .black
+        self.hideKeyboard()
+        
+        if passwordText != repeatPasswordText {
+            let alert = UIAlertController(title: "Ошибка",
+                                          message: "Пароли не совпадают",
+                                          preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        let dispatchGroup = DispatchGroup()
+        
+        Auth.auth().createUser(withEmail: emailText, password: passwordText) { (result, error) in
+            if let _ = error  {
+                let alert = UIAlertController(title: "Ошибка при регистрации",
+                                              message: error?.localizedDescription,
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alert, animated: true, completion: nil)
+                return
+            } else {
+                let changeRequest = result?.user.createProfileChangeRequest()
+
+                    changeRequest?.displayName = nameText
+                    dispatchGroup.enter()
+                    changeRequest?.commitChanges(completion: { (_) in
+                        print("commit")
+                    })
+                }
+            }
+         
+        
+        self.delay(2) {
+            Auth.auth().signIn(withEmail: emailText,
+                               password: passwordText)
+            Auth.auth().currentUser?.reload()
+            
+            try? Auth.auth().signOut()
+            Auth.auth().signIn(withEmail: emailText,
+                               password: passwordText)
+        }
+        
+        self.delay(3) {
+       self.dismiss(animated: true, completion: nil)
+        }
+
+    }
+    
+    
+    @objc private func confirmSignUpButtonCancelTapped(_ sender: UIButton) {
+        guard let emailText = self.emailTextField.text, let passwordText = self.passwordTextField.text, let nameText = self.nameTextField.text, let repeatPasswordText = self.repeatPasswordTextField.text, !passwordText.isEmpty, !emailText.isEmpty, !nameText.isEmpty, !repeatPasswordText.isEmpty  else { return }
+        
+        UIView.animate(withDuration: 0.1) {
+            sender.transform = .identity
+        }
+        self.confirmSignUpButton.backgroundColor = .black
+    }
+    
+    @objc private func confirmSignUpButtonDragAwayTapped(_ sender: UIButton) {
+        guard let emailText = self.emailTextField.text, let passwordText = self.passwordTextField.text, let nameText = self.nameTextField.text, let repeatPasswordText = self.repeatPasswordTextField.text, !passwordText.isEmpty, !emailText.isEmpty, !nameText.isEmpty, !repeatPasswordText.isEmpty  else { return }
+        
+        UIView.animate(withDuration: 0.1) {
+            sender.transform = .identity
+        }
+        self.confirmSignUpButton.backgroundColor = .black
+    }
+    
+    
+    @objc private func confirmSignUpButtonStartTouch (_ sender: UIButton) {
+        guard let emailText = self.emailTextField.text, let passwordText = self.passwordTextField.text, let nameText = self.nameTextField.text, let repeatPasswordText = self.repeatPasswordTextField.text, !passwordText.isEmpty, !emailText.isEmpty, !nameText.isEmpty, !repeatPasswordText.isEmpty  else { return }
+        
+        UIView.animate(withDuration: 0.1) {
+            sender.transform = .init(scaleX:0.9, y: 0.9)
+        }
+        self.confirmSignUpButton.backgroundColor = .lightGray
+    }
+    
     @objc private func hideKeyboard() {
-        [self.emailTextField, self.passwordTextField, self.nameTextField, self.repeatPasswordLabel].forEach { $0.resignFirstResponder() }
+        [self.emailTextField, self.passwordTextField, self.nameTextField, self.repeatPasswordTextField].forEach { $0.resignFirstResponder() }
     }
     
 }

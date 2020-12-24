@@ -7,7 +7,7 @@ class LibraryViewController: UIViewController {
     private let activityIndicatorView = UIView()
     private let scrollView = UIScrollView()
     private let intrestingView = IntrestingView()
-    private let topBooksView = BooksView(description: "Топ 100")
+    private let topBooksView = BooksView(description: "Топ 25")
     private let editorChoiceBooksView = BooksView(description: "Выбор редакции")
 
     private lazy var activityIndicatorViewConstraints = [
@@ -24,11 +24,7 @@ class LibraryViewController: UIViewController {
         self.setUpNavigationController()
         self.setUpViewsConstraints()
         self.fetchDataRequest()
-//        delay(3) {
-//            self.deactivateActivityIndicatorConstraint()
-//        }
         self.setUpViewsConstraints()
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -117,12 +113,12 @@ class LibraryViewController: UIViewController {
     }
     
     private func setUpScrollViewConstraint() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
         
-        scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+        self.scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        self.scrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        self.scrollView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     
     private func setUpIntrestingViewConstraint() {
