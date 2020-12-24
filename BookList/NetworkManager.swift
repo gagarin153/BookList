@@ -24,6 +24,8 @@ class NetworkManager {
     private init() {}
     
     private let db = Firestore.firestore()
+    private let decoder = JSONDecoder()
+
     
     func downloadGeneralBooks(completion: @escaping (Result<[Book], Error>) -> ()) {
         self.db.collection("Books").limit(to: 6).getDocuments { (querySnapshot, err) in
@@ -31,13 +33,12 @@ class NetworkManager {
                 print("Error getting documents: \(err)")
             } else {
                 var books = [Book]()
-                let decoder = JSONDecoder()
                 for  document in querySnapshot!.documents {
                     
                     guard let jsonData = try? JSONSerialization.data(withJSONObject: document.data(), options: []) else { return}
                     
                     do {
-                        let book = try decoder.decode(Book.self, from: jsonData )
+                        let book = try self.decoder.decode(Book.self, from: jsonData )
                         books.append(book)
                     } catch let error {
                         completion(.failure(error))
@@ -51,12 +52,11 @@ class NetworkManager {
     }
     
     func downloadEditorChoiceBooks(completion: @escaping (Result<[Book], Error>) -> ()) {
-        self.db.collection("Editor choice").limit(to: 1).getDocuments { (querySnapshot, error) in
+        self.db.collection("Editor choice").limit(to: 6).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error getting documents: \(error)")
             } else {
                 var books = [Book]()
-                let decoder = JSONDecoder()
                 let dispatchGroup = DispatchGroup()
                 for document in querySnapshot!.documents {
                     dispatchGroup.enter()
@@ -65,15 +65,15 @@ class NetworkManager {
                         if let bookDocument = bookDocument, bookDocument.exists {
                             
                             guard let jsonData = try? JSONSerialization.data(withJSONObject: bookDocument.data() , options: []) else { return }
-                        
+                            
                             do {
-                                let book = try decoder.decode(Book.self, from:  jsonData)
+                                let book = try self.decoder.decode(Book.self, from:  jsonData)
                                 books.append(book)
                             } catch let error {
                                 completion(.failure(error))
                             }
                             dispatchGroup.leave()
-
+                            
                         } else {
                             print("Document does not exist")
                         }
@@ -86,5 +86,46 @@ class NetworkManager {
                 }
             }
         }
+    }
+    
+    
+    func downloadFavoriatsBooks(for userUID: String?, completion: @escaping (Result<[Book], Error>) -> ()) {
+        self.db.collection("Favoriats").document((userUID ?? " ")).addSnapshotListener({ (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+            }  else {
+                if let querySnapshot =  querySnapshot {
+                    var books = [Book]()
+                    let dispatchGroup = DispatchGroup()
+
+                    guard let  references = querySnapshot.get("favoriatsBook") as? [DocumentReference] else { return }
+                    
+                    for ref in references  {
+                        dispatchGroup.enter()
+                        ref.getDocument { (bookDocument, error) in
+                            if let bookDocument = bookDocument, bookDocument.exists {
+                                
+                                guard let jsonData = try? JSONSerialization.data(withJSONObject: bookDocument.data() , options: []) else { return }
+                                
+                                do {
+                                    let book = try self.decoder.decode(Book.self, from:  jsonData)
+                                    books.append(book)
+                                } catch let error {
+                                    completion(.failure(error))
+                                }
+                                dispatchGroup.leave()
+                                
+                            } else {
+                                print("Document does not exist")
+                            }
+                        }
+                        dispatchGroup.notify(queue: DispatchQueue.main) {
+                            completion(.success(books))
+                        }
+                    }
+                }
+            }
+        })
+
     }
 }

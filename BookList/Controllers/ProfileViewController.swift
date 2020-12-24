@@ -125,23 +125,34 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .softGray
         navigationController?.navigationBar.prefersLargeTitles = true
-        Auth.auth().addStateDidChangeListener {_,_ in
-            self.setUpConstaints()
-        }
+        Auth.auth().addStateDidChangeListener({ (auth, user) in
+            self.setUpWindow()
+        })
     }
     
     
     
-    private func setUpConstaints() {
+    private func setUpWindow() {
+        
         if  let user = Auth.auth().currentUser  {
-            self.user = User(authData: user)
             NSLayoutConstraint.deactivate(self.initialConstraints)
-            self.title = "Профиль"
             [self.titleLabel, self.descriptionLabel, self.signInButton].forEach { $0.removeFromSuperview() }
-            [self.containerView, self.favoritesBooksView, self.signOutButton, self.profileLabel, self.nameLabel].forEach { self.view.addSubview($0)}
-            self.profileLabel.text = String(self.user?.name?.first ?? " ")
-            self.nameLabel.text = self.user?.name
-            NSLayoutConstraint.activate(self.profileConstraints)
+            if user.displayName == nil { return}
+            let dispatchgroup = DispatchGroup()
+            dispatchgroup.enter()
+            user.reload { _ in
+                dispatchgroup.leave()
+            }
+            
+            dispatchgroup.notify(queue: DispatchQueue.main) {
+                self.fetchData()
+                self.title = "Профиль"
+                [self.containerView, self.favoritesBooksView, self.signOutButton, self.profileLabel, self.nameLabel].forEach { self.view.addSubview($0)}
+                self.user = User(authData: user)
+                self.profileLabel.text = String(self.user?.name?.first ?? " ")
+                self.nameLabel.text = self.user?.name
+                NSLayoutConstraint.activate(self.profileConstraints)
+            }
             
         } else {
             self.title = ""
@@ -151,6 +162,18 @@ class ProfileViewController: UIViewController {
             NSLayoutConstraint.activate(self.initialConstraints)
         }
     }
+    
+    private func fetchData() {
+        NetworkManager.shared.downloadFavoriatsBooks(for: Auth.auth().currentUser?.uid) { (result) in
+            switch result  {
+            case .success(let books):
+                self.favoritesBooksView.setBooks(books: books)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     
     @objc private func signInButtonStartTouch (_ sender: UIButton) {
         UIView.animate(withDuration: 0.1) {
@@ -165,7 +188,9 @@ class ProfileViewController: UIViewController {
         }
         self.signInButton.backgroundColor = .black
         
-        let detailVC = UINavigationController(rootViewController: SignInViewController())
+        let vc = SignInViewController()
+        vc.handler = self.setUpWindow
+        let detailVC = UINavigationController(rootViewController: vc)
         self.showDetailViewController(detailVC, sender: self)
     }
     

@@ -3,6 +3,7 @@ import Firebase
 
 class SignInViewController: UIViewController {
     
+    var handler = {}
     private let signInButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -188,7 +189,7 @@ class SignInViewController: UIViewController {
         self.confirmSignUpButton.widthAnchor.constraint(equalToConstant: 180.0),
         self.confirmSignUpButton.heightAnchor.constraint(equalToConstant: 50.0),
     ]
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -378,31 +379,21 @@ class SignInViewController: UIViewController {
                 return
             } else {
                 let changeRequest = result?.user.createProfileChangeRequest()
-
-                    changeRequest?.displayName = nameText
-                    dispatchGroup.enter()
-                    changeRequest?.commitChanges(completion: { (_) in
-                        print("commit")
-                    })
-                }
+                
+                changeRequest?.displayName = nameText
+                dispatchGroup.enter()
+                changeRequest?.commitChanges(completion: { (_) in
+                    self.handler()
+                    dispatchGroup.leave()
+                })
             }
-         
-        
-        self.delay(2) {
-            Auth.auth().signIn(withEmail: emailText,
-                               password: passwordText)
-            Auth.auth().currentUser?.reload()
-            
-            try? Auth.auth().signOut()
-            Auth.auth().signIn(withEmail: emailText,
-                               password: passwordText)
+                        
+            dispatchGroup.notify(queue: DispatchQueue.main) {
+                self.dismiss(animated: true, completion: nil)
+            }
         }
-        
-        self.delay(3) {
-       self.dismiss(animated: true, completion: nil)
-        }
-
     }
+    
     
     
     @objc private func confirmSignUpButtonCancelTapped(_ sender: UIButton) {
