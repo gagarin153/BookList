@@ -3,7 +3,7 @@ import Firebase
 
 class ProfileViewController: UIViewController {
     
-    private var user: User?
+   // private var user: User?
     private let favoritesBooksView = BooksView(description: "Избранное")
     
     private let  titleLabel: UILabel = {
@@ -115,10 +115,10 @@ class ProfileViewController: UIViewController {
         self.favoritesBooksView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
         self.favoritesBooksView.heightAnchor.constraint(equalToConstant: 220),
         
-        self.signOutButton.topAnchor.constraint(equalTo: self.favoritesBooksView.bottomAnchor, constant: 20.0),
-        self.signOutButton.heightAnchor.constraint(equalToConstant: 50.0),
-        self.signOutButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-        self.signOutButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+        self.signOutButton.topAnchor.constraint(equalTo:  self.containerView.topAnchor, constant: 8.0),
+        self.signOutButton.heightAnchor.constraint(equalToConstant: 25.0),
+        self.signOutButton.widthAnchor.constraint(equalToConstant: 80),
+        self.signOutButton.trailingAnchor.constraint(equalTo: self.containerView.trailingAnchor, constant: -8)
     ]
     
     override func viewDidLoad() {
@@ -130,11 +130,19 @@ class ProfileViewController: UIViewController {
         })
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.fetchData()
+         let db = Firestore.firestore()
+
+        db.collection("Favoriats").document((User.shared.userData?.uid)!).updateData(<#T##fields: [AnyHashable : Any]##[AnyHashable : Any]#>)
+        
+    }
     
     private func setUpWindow() {
         
         if  let user = Auth.auth().currentUser  {
+            
             NSLayoutConstraint.deactivate(self.initialConstraints)
             [self.titleLabel, self.descriptionLabel, self.signInButton].forEach { $0.removeFromSuperview() }
             if user.displayName == nil { return}
@@ -148,9 +156,9 @@ class ProfileViewController: UIViewController {
                 self.fetchData()
                 self.title = "Профиль"
                 [self.containerView, self.favoritesBooksView, self.signOutButton, self.profileLabel, self.nameLabel].forEach { self.view.addSubview($0)}
-                self.user = User(authData: user)
-                self.profileLabel.text = String(self.user?.name?.first ?? " ")
-                self.nameLabel.text = self.user?.name
+                User.shared.userData = UserData(authData: user)
+                self.profileLabel.text = String(User.shared.userData?.name?.first ?? " ")
+                self.nameLabel.text = User.shared.userData?.name
                 NSLayoutConstraint.activate(self.profileConstraints)
             }
             
@@ -160,6 +168,7 @@ class ProfileViewController: UIViewController {
             [self.titleLabel, self.descriptionLabel, self.signInButton].forEach { self.view.addSubview($0) }
             [self.containerView, self.favoritesBooksView, self.signOutButton, self.profileLabel, self.nameLabel].forEach { $0.removeFromSuperview() }
             NSLayoutConstraint.activate(self.initialConstraints)
+            favoritesBooksView.setBooks(books: nil)
         }
     }
     
@@ -167,6 +176,7 @@ class ProfileViewController: UIViewController {
         NetworkManager.shared.downloadFavoriatsBooks(for: Auth.auth().currentUser?.uid) { (result) in
             switch result  {
             case .success(let books):
+                User.shared.userData?.favoriatBooks = books
                 self.favoritesBooksView.setBooks(books: books)
             case .failure(let error):
                 print(error.localizedDescription)

@@ -3,7 +3,7 @@ import Firebase
 
 class BooksView: UIView {
     
-    private var books = [Book]()
+    private var books: [Book]? =  nil //[Book]()
     private let storage = Storage.storage()
     
     private let collectionView: UICollectionView = {
@@ -54,7 +54,7 @@ class BooksView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setBooks(books: [Book]) {
+    func setBooks(books: [Book]?) {
         self.books = books
         self.collectionView.reloadData()
     }
@@ -98,12 +98,12 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return  books.count <= 6 ? books.count : 6
+        return books?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCollectionViewCell.reuseIdentifier, for: indexPath) as? BookCollectionViewCell else { return  UICollectionViewCell()}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCollectionViewCell.reuseIdentifier, for: indexPath)as? BookCollectionViewCell, let books = books  else { return  UICollectionViewCell()}
         
         cell.setCell(with: books[indexPath.item].name, imagePath: books[indexPath.item].imagePath)
         return cell 

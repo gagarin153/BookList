@@ -97,11 +97,14 @@ class NetworkManager {
                 if let querySnapshot =  querySnapshot {
                     var books = [Book]()
                     let dispatchGroup = DispatchGroup()
-
-                    guard let  references = querySnapshot.get("favoriatsBook") as? [DocumentReference] else { return }
                     
+                    
+                    guard let  references = querySnapshot.get("favoriatsBook") as? [DocumentReference] else { return }
+                                        
                     for ref in references  {
                         dispatchGroup.enter()
+                        
+                        
                         ref.getDocument { (bookDocument, error) in
                             if let bookDocument = bookDocument, bookDocument.exists {
                                 
