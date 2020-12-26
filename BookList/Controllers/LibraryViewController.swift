@@ -7,8 +7,8 @@ class LibraryViewController: UIViewController {
     private let activityIndicatorView = UIView()
     private let scrollView = UIScrollView()
     private let intrestingView = IntrestingView()
-    private let topBooksView = BooksView(description: "Топ 25")
-    private let editorChoiceBooksView = BooksView(description: "Выбор редакции")
+    private lazy var topBooksView = BooksView(description: "Топ 25", handler: navigateToBook)
+    private lazy var editorChoiceBooksView = BooksView(description: "Выбор редакции",  handler: navigateToBook)
 
     private lazy var activityIndicatorViewConstraints = [
         activityIndicatorView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -30,6 +30,11 @@ class LibraryViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.editorChoiceBooksView.frame.maxY + 60)
+        let db = Firestore.firestore()
+
+       db.collection("Favoriats").document((User.shared.userData?.uid)!).updateData([
+           "favoriatsBook": FieldValue.arrayUnion([db.document("/Books/30zoFV4ofvrL3olt0gVC")])
+       ])
     }
     
     private func setUpViewsConstraints() {
@@ -53,15 +58,17 @@ class LibraryViewController: UIViewController {
         self.activityIndicator.startAnimating()
     }
     
-//    private func delay(_ delay: Int, closure: @escaping () -> ()) {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
-//            closure()
-//        }
-//    }
     
     private func deactivateActivityIndicatorConstraint() {
         self.activityIndicator.stopAnimating()
         NSLayoutConstraint.deactivate(activityIndicatorViewConstraints)
+    }
+    
+     @objc func navigateToBook() {
+        let rootVC = BookViewController()
+        rootVC.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(rootVC, animated: true) 
+        //self.present(navVC, animated: true)
     }
     
     private func fetchDataRequest(){

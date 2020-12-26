@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F11CD82259649B900CCA174 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F11CD81259649B900CCA174 /* BookViewController.swift */; };
+		2F11CD8925964D7100CCA174 /* DescriptionBookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F11CD8825964D7100CCA174 /* DescriptionBookCollectionViewCell.swift */; };
+		2F11CD8C25964EDF00CCA174 /* AnnotationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F11CD8B25964EDF00CCA174 /* AnnotationCollectionViewCell.swift */; };
 		2F136E1D2592AF47008098EB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F136E1C2592AF47008098EB /* SignInViewController.swift */; };
 		2F3630B2253498D80065FEEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3630B1253498D80065FEEA /* AppDelegate.swift */; };
 		2F3630B4253498D80065FEEA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3630B3253498D80065FEEA /* SceneDelegate.swift */; };
@@ -30,6 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F11CD81259649B900CCA174 /* BookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
+		2F11CD8825964D7100CCA174 /* DescriptionBookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionBookCollectionViewCell.swift; sourceTree = "<group>"; };
+		2F11CD8B25964EDF00CCA174 /* AnnotationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationCollectionViewCell.swift; sourceTree = "<group>"; };
 		2F136E1C2592AF47008098EB /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		2F3630AE253498D80065FEEA /* BookList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F3630B1253498D80065FEEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -127,7 +133,9 @@
 			isa = PBXGroup;
 			children = (
 				2F9129272548402000B5D0B3 /* BookCollectionViewCell.swift */,
+				2F11CD8B25964EDF00CCA174 /* AnnotationCollectionViewCell.swift */,
 				2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */,
+				2F11CD8825964D7100CCA174 /* DescriptionBookCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -149,6 +157,7 @@
 				2F90E141254306E900536615 /* LibraryViewController.swift */,
 				2F90E145254306FA00536615 /* SearchViewController.swift */,
 				2F90E1482543070600536615 /* ProfileViewController.swift */,
+				2F11CD81259649B900CCA174 /* BookViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -306,6 +315,7 @@
 				2F90E1492543070600536615 /* ProfileViewController.swift in Sources */,
 				2F90E15D2543387600536615 /* IntrestingView.swift in Sources */,
 				2F90E15425430C1100536615 /* UIColorExtensions.swift in Sources */,
+				2F11CD82259649B900CCA174 /* BookViewController.swift in Sources */,
 				2FA9213C25925F9700DB5C8F /* NetworkManager.swift in Sources */,
 				2F6486E6259609B700341ECB /* User.swift in Sources */,
 				2F9129282548402000B5D0B3 /* BookCollectionViewCell.swift in Sources */,
@@ -314,9 +324,11 @@
 				2F81E9ED2593643400EDA6C9 /* UserData.swift in Sources */,
 				2F3630B2253498D80065FEEA /* AppDelegate.swift in Sources */,
 				2F90E13D2543069300536615 /* MainTabBarController.swift in Sources */,
+				2F11CD8925964D7100CCA174 /* DescriptionBookCollectionViewCell.swift in Sources */,
 				2FA9213825925C3300DB5C8F /* Book.swift in Sources */,
 				2F912924254834CF00B5D0B3 /* BooksView.swift in Sources */,
 				2F90E142254306E900536615 /* LibraryViewController.swift in Sources */,
+				2F11CD8C25964EDF00CCA174 /* AnnotationCollectionViewCell.swift in Sources */,
 				2F3630B4253498D80065FEEA /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

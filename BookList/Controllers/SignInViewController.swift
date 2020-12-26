@@ -212,7 +212,6 @@ class SignInViewController: UIViewController {
     }
     
     private func setSignUpWindow() {
-        navigationController?.navigationBar.prefersLargeTitles = true
         title = "Регистрация"
         self.emailTextField.text = ""
         self.passwordTextField.text = ""
@@ -247,9 +246,7 @@ class SignInViewController: UIViewController {
         }
     }
     
-    @objc private func enableDrag() {
-        
-    }
+
     
     @objc private func arrowButtonTapped() {
         self.hideKeyboard()

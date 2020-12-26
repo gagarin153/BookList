@@ -52,6 +52,8 @@ class BookCollectionViewCell: UICollectionViewCell {
         self.bookImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
         self.bookImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -15).isActive = true
         self.bookImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+       // self.bookImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+
         
         self.nameLabel.topAnchor.constraint(equalTo: self.bookImageView.bottomAnchor, constant: 10).isActive = true
         self.nameLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true

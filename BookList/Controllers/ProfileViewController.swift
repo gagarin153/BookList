@@ -4,7 +4,7 @@ import Firebase
 class ProfileViewController: UIViewController {
     
    // private var user: User?
-    private let favoritesBooksView = BooksView(description: "Избранное")
+    private lazy var favoritesBooksView = BooksView(description: "Избранное", handler: navigateToBook)
     
     private let  titleLabel: UILabel = {
         let label = UILabel()
@@ -133,10 +133,12 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.fetchData()
-         let db = Firestore.firestore()
-
-        db.collection("Favoriats").document((User.shared.userData?.uid)!).updateData(<#T##fields: [AnyHashable : Any]##[AnyHashable : Any]#>)
-        
+    }
+    
+    func navigateToBook() {
+        let rootVC = BookViewController()
+        rootVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(rootVC, animated: true)
     }
     
     private func setUpWindow() {

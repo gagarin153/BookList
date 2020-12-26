@@ -5,6 +5,7 @@ class BooksView: UIView {
     
     private var books: [Book]? =  nil //[Book]()
     private let storage = Storage.storage()
+    private var navigateToBook: (()->())?
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -42,12 +43,12 @@ class BooksView: UIView {
         super.init(frame: frame)
     }
     
-    init(description text: String) {
+    init(description text: String, handler:  @escaping ()->()) {
         self.init()
         self.descriptionLabel.text = text
         self.setUpViews()
         self.setUpConstraints()
-        
+        self.navigateToBook = handler
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -111,6 +112,8 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath)
+        guard let navigateToBook = self.navigateToBook else { return }
+        navigateToBook()
     }
     
 }
