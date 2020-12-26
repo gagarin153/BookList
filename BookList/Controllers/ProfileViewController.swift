@@ -4,7 +4,7 @@ import Firebase
 class ProfileViewController: UIViewController {
     
    // private var user: User?
-    private lazy var favoritesBooksView = BooksView(description: "Избранное", handler: navigateToBook)
+    private lazy var favoritesBooksView = BooksView(description: "Избранное", handler: navigateTo)
     
     private let  titleLabel: UILabel = {
         let label = UILabel()
@@ -135,10 +135,11 @@ class ProfileViewController: UIViewController {
         self.fetchData()
     }
     
-    func navigateToBook() {
+    func navigateTo(book: Book?) {
         let rootVC = BookViewController()
         rootVC.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(rootVC, animated: true)
+        rootVC.book = book
+        navigationController?.pushViewController(rootVC, animated: true)
     }
     
     private func setUpWindow() {

@@ -10,11 +10,12 @@ import UIKit
 class ArticleCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "ArticleCell"
     
+    
     private let imageView: UIImageView = {
         let i = UIImageView()
-        i.backgroundColor = .systemIndigo
+        i.backgroundColor = .softGray
         i.translatesAutoresizingMaskIntoConstraints = false
-        i.layer.cornerRadius = 30.0
+        //i.layer.cornerRadius = 30.0
         return i
     }()
     

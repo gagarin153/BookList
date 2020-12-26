@@ -1,9 +1,29 @@
 import UIKit
+import Firebase
 
 class DescriptionBookCollectionViewCell: UICollectionViewCell {
     
     static let reuseIdentifier = "DescriptionBookCell"
     
+    var book: Book?  {
+        didSet {
+            self.ratingButton.setTitle(book?.rating, for: .normal)
+            self.nameLabel.text = "Название: \(book?.name ?? " ")"
+            self.genreLabel.text =  "Жанр: \(book?.genre ?? " ")"
+            self.publicationYearLabel.text = "Год публикации: \(book?.publicationYear ?? " ")"
+            self.authorLabel.setTitle(book?.author, for: .normal)
+            let storageRef = Storage.storage().reference()
+            let imageRef = storageRef.child(book?.imagePath ?? " ")
+            
+            imageRef.downloadURL { url, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    self.bookImageView.kf.setImage(with: url)
+                }
+            }
+        }
+    }
     private lazy var width: NSLayoutConstraint = {
         let width = self.contentView.widthAnchor.constraint(equalToConstant: self.bounds.size.width)
         width.isActive = true
@@ -37,13 +57,15 @@ class DescriptionBookCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let authorLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.numberOfLines = 0
-        label.text = "Автор: Ф.М. Достоевский"
-        return label
+    private let authorLabel: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.numberOfLines = 0
+        button.backgroundColor = .black
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+        button.setTitle("Автор: Ф.М. Достоевский", for: .normal)
+        return button
     }()
     
     private let genreLabel: UILabel = {
@@ -64,10 +86,10 @@ class DescriptionBookCollectionViewCell: UICollectionViewCell {
     
     
     private let bookImageView: UIImageView =  {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .softGray
-       return imageView
+        return imageView
     }()
     
     override init(frame: CGRect) {
@@ -90,16 +112,18 @@ class DescriptionBookCollectionViewCell: UICollectionViewCell {
         self.contentView.layer.cornerRadius = radius
         self.contentView.backgroundColor = .white
     }
+    
 
+    
     private func setUpLayout() {
         self.contentView.translatesAutoresizingMaskIntoConstraints = false
         [self.bookImageView, self.ratingButton, self.addDeleteToFavoriteButton, self.nameLabel, self.authorLabel, self.genreLabel, self.publicationYearLabel].forEach {self.contentView.addSubview($0)}
-                
+        
         self.bookImageView.heightAnchor.constraint(equalToConstant: 215).isActive = true
         self.bookImageView.widthAnchor.constraint(equalToConstant: 140.0).isActive = true
         self.bookImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20 ).isActive = true
         self.bookImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20 ).isActive = true
-
+        
         self.ratingButton.leadingAnchor.constraint(equalTo: self.bookImageView.trailingAnchor, constant: 20).isActive = true
         self.ratingButton.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20).isActive = true
         self.ratingButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
@@ -109,23 +133,25 @@ class DescriptionBookCollectionViewCell: UICollectionViewCell {
         self.addDeleteToFavoriteButton.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20).isActive = true
         self.addDeleteToFavoriteButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         self.addDeleteToFavoriteButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-
-        self.nameLabel.leadingAnchor.constraint(equalTo: self.bookImageView.trailingAnchor, constant: 20).isActive = true
-        self.nameLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
-        self.nameLabel.topAnchor.constraint(equalTo: self.ratingButton.bottomAnchor, constant: 10).isActive = true
         
-        self.authorLabel.leadingAnchor.constraint(equalTo: self.bookImageView.trailingAnchor, constant: 20).isActive = true
-        self.authorLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
-        self.authorLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 10).isActive = true
+        
+        self.nameLabel.leadingAnchor.constraint(equalTo: self.bookImageView.trailingAnchor, constant: 20).isActive = true
+        self.nameLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
+        self.nameLabel.topAnchor.constraint(equalTo: self.ratingButton.bottomAnchor, constant: 10).isActive = true
         
         self.genreLabel.leadingAnchor.constraint(equalTo: self.bookImageView.trailingAnchor, constant: 20).isActive = true
         self.genreLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
-        self.genreLabel.topAnchor.constraint(equalTo: self.authorLabel.bottomAnchor, constant: 10).isActive = true
+        self.genreLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 10).isActive = true
         
         self.publicationYearLabel.leadingAnchor.constraint(equalTo: self.bookImageView.trailingAnchor, constant: 20).isActive = true
         self.publicationYearLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
         self.publicationYearLabel.topAnchor.constraint(equalTo: self.genreLabel.bottomAnchor, constant: 10).isActive = true
         
-        self.contentView.bottomAnchor.constraint(equalTo: self.bookImageView.bottomAnchor, constant: 20 ).isActive = true
+        self.authorLabel.leadingAnchor.constraint(equalTo: self.bookImageView.trailingAnchor, constant: 10).isActive = true
+        self.authorLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,  constant: -10).isActive = true
+        self.authorLabel.topAnchor.constraint(equalTo: self.publicationYearLabel.bottomAnchor, constant: 10).isActive = true
+        self.authorLabel.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+                
+        self.contentView.bottomAnchor.constraint(equalTo: self.authorLabel.bottomAnchor, constant: 20 ).isActive = true
     }
 }

@@ -7,8 +7,8 @@ class LibraryViewController: UIViewController {
     private let activityIndicatorView = UIView()
     private let scrollView = UIScrollView()
     private let intrestingView = IntrestingView()
-    private lazy var topBooksView = BooksView(description: "Топ 25", handler: navigateToBook)
-    private lazy var editorChoiceBooksView = BooksView(description: "Выбор редакции",  handler: navigateToBook)
+    private lazy var topBooksView = BooksView(description: "Топ 25", handler: navigateTo)
+    private lazy var editorChoiceBooksView = BooksView(description: "Выбор редакции",  handler: navigateTo)
 
     private lazy var activityIndicatorViewConstraints = [
         activityIndicatorView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -64,11 +64,11 @@ class LibraryViewController: UIViewController {
         NSLayoutConstraint.deactivate(activityIndicatorViewConstraints)
     }
     
-     @objc func navigateToBook() {
+    func navigateTo(book: Book?) {
         let rootVC = BookViewController()
         rootVC.modalPresentationStyle = .fullScreen
+        rootVC.book = book
         navigationController?.pushViewController(rootVC, animated: true) 
-        //self.present(navVC, animated: true)
     }
     
     private func fetchDataRequest(){

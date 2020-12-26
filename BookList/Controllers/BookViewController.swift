@@ -2,6 +2,8 @@ import UIKit
 
 class BookViewController: UIViewController {
     
+    var book: Book?
+    
     private let collectionView: UICollectionView = {
         var layout: UICollectionViewFlowLayout = {
             let layout = UICollectionViewFlowLayout()
@@ -47,9 +49,11 @@ extension BookViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DescriptionBookCollectionViewCell.reuseIdentifier, for: indexPath) as? DescriptionBookCollectionViewCell else { return UICollectionViewCell() }
+            cell.book = book
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnnotationCollectionViewCell.reuseIdentifier, for: indexPath) as? AnnotationCollectionViewCell else { return UICollectionViewCell() }
+            cell.annotationText = book?.annotation
             return cell
         }
     }

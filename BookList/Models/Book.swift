@@ -7,5 +7,6 @@ struct Book: Codable {
     let publicationYear: String
     let imagePath: String
     let rating: String
+    let genre: String
 }
 

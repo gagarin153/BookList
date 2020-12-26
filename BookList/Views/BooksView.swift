@@ -3,9 +3,9 @@ import Firebase
 
 class BooksView: UIView {
     
-    private var books: [Book]? =  nil //[Book]()
+    private var books: [Book]? =  nil
     private let storage = Storage.storage()
-    private var navigateToBook: (()->())?
+    private var navigateTo: ((Book?)->())?
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -43,12 +43,12 @@ class BooksView: UIView {
         super.init(frame: frame)
     }
     
-    init(description text: String, handler:  @escaping ()->()) {
+    init(description text: String, handler:  @escaping (Book?)->()) {
         self.init()
         self.descriptionLabel.text = text
         self.setUpViews()
         self.setUpConstraints()
-        self.navigateToBook = handler
+        self.navigateTo = handler
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,8 +64,8 @@ class BooksView: UIView {
         [self.descriptionLabel, self.fullListButton, self.containerView].forEach {self.addSubview($0)}
         self.backgroundColor = .clear
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.containerView.addSubview(collectionView)
-        
+        self.containerView.addSubview(self.collectionView)
+        self.collectionView.showsHorizontalScrollIndicator = false
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         self.collectionView.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: BookCollectionViewCell.reuseIdentifier)
@@ -111,9 +111,9 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
-        guard let navigateToBook = self.navigateToBook else { return }
-        navigateToBook()
+        guard let navigateTo = self.navigateTo else { return }
+        
+        navigateTo(books?[indexPath.item])
     }
     
 }
