@@ -1,17 +1,23 @@
-//
-//  AppDelegate.swift
-//  BookList
-//
-//  Created by Sultan on 12.10.2020.
-//
-
 import UIKit
+import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        FirebaseApp.configure()
+
+        guard let user = Auth.auth().currentUser else {return true}
+        User.shared.userData = UserData(authData: user)
+        NetworkManager.shared.downloadFavoriatsBooks(for: Auth.auth().currentUser?.uid) { (result) in
+            switch result  {
+            case .success(let books):
+                User.shared.userData?.favoriatBooks = books
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
         return true
     }
 
