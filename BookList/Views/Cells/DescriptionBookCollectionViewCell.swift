@@ -1,7 +1,13 @@
 import UIKit
 import Firebase
 
+protocol DescriptionBookCollectionViewCellDelegate {
+    func addDeleteToFavoriteButtonTapped()
+}
+
 class DescriptionBookCollectionViewCell: UICollectionViewCell {
+    
+     var delegate: DescriptionBookCollectionViewCellDelegate?
     
     static let reuseIdentifier = "DescriptionBookCell"
     
@@ -22,8 +28,21 @@ class DescriptionBookCollectionViewCell: UICollectionViewCell {
                     self.bookImageView.kf.setImage(with: url)
                 }
             }
+            
+            guard let result = User.shared.userData?.favoriatBooks.contains(book) else {
+                self.setDeleteButton()
+                return
+            }
+                    
+            if  result   {
+                self.setDeleteButton()
+                
+            } else {
+                self.setAddButton()
+            }
         }
     }
+    
     private lazy var width: NSLayoutConstraint = {
         let width = self.contentView.widthAnchor.constraint(equalToConstant: self.bounds.size.width)
         width.isActive = true
@@ -46,6 +65,8 @@ class DescriptionBookCollectionViewCell: UICollectionViewCell {
         button.backgroundColor = .black
         button.setTitleColor(.white, for: .normal)
         button.setTitle("Добавить", for: .normal)
+        button.addTarget(self, action: #selector(addDeleteToFavoriteButtonTapped), for: .touchUpInside)
+        button.isEnabled = true
         return button
     }()
     
@@ -113,7 +134,7 @@ class DescriptionBookCollectionViewCell: UICollectionViewCell {
         self.contentView.backgroundColor = .white
     }
     
-
+    
     
     private func setUpLayout() {
         self.contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -151,7 +172,23 @@ class DescriptionBookCollectionViewCell: UICollectionViewCell {
         self.authorLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,  constant: -10).isActive = true
         self.authorLabel.topAnchor.constraint(equalTo: self.publicationYearLabel.bottomAnchor, constant: 10).isActive = true
         self.authorLabel.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-                
+        
         self.contentView.bottomAnchor.constraint(equalTo: self.authorLabel.bottomAnchor, constant: 20 ).isActive = true
     }
+    
+     func setDeleteButton() {
+        self.addDeleteToFavoriteButton.setTitleColor(.black, for: .normal)
+        self.addDeleteToFavoriteButton.setTitle("Удалить", for: .normal)
+        self.addDeleteToFavoriteButton.backgroundColor = .white
+        self.addDeleteToFavoriteButton.layer.borderWidth = 1.0
+    }
+    
+     func setAddButton() {
+        self.addDeleteToFavoriteButton.backgroundColor = .black
+        self.addDeleteToFavoriteButton.setTitleColor(.white, for: .normal)
+        self.addDeleteToFavoriteButton.setTitle("Добавить", for: .normal)
+    }
+    
+    
+    @objc private func addDeleteToFavoriteButtonTapped() {}
 }

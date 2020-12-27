@@ -3,7 +3,7 @@ import Firebase
 
 class BooksView: UIView {
     
-    private var books: [Book]? =  nil
+    private var books: [Book?]?
     private let storage = Storage.storage()
     private var navigateTo: ((Book?)->())?
     
@@ -55,7 +55,7 @@ class BooksView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setBooks(books: [Book]?) {
+    func setBooks(books: [Book?]?) {
         self.books = books
         self.collectionView.reloadData()
     }
@@ -90,6 +90,10 @@ class BooksView: UIView {
         self.collectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
         self.collectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20).isActive = true
     }
+    
+    func getBooksCount() -> Int? {
+        return books?.count
+    }
 }
 
 extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -106,7 +110,7 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
                 
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCollectionViewCell.reuseIdentifier, for: indexPath)as? BookCollectionViewCell, let books = books  else { return  UICollectionViewCell()}
         
-        cell.setCell(with: books[indexPath.item].name, imagePath: books[indexPath.item].imagePath)
+        cell.setCell(with: books[indexPath.item]!.name, imagePath: books[indexPath.item]!.imagePath)
         return cell 
     }
     

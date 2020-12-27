@@ -36,9 +36,10 @@ class NetworkManager {
                 for  document in querySnapshot!.documents {
                     
                     guard let jsonData = try? JSONSerialization.data(withJSONObject: document.data(), options: []) else { return}
-                    
+                
                     do {
-                        let book = try self.decoder.decode(Book.self, from: jsonData )
+                        var book = try self.decoder.decode(Book.self, from: jsonData )
+                        book.id = document.documentID
                         books.append(book)
                     } catch let error {
                         completion(.failure(error))
@@ -48,7 +49,6 @@ class NetworkManager {
             }
         }
         
-        let docRef = Firestore.firestore().collection("fl_content").document("d")
     }
     
     func downloadEditorChoiceBooks(completion: @escaping (Result<[Book], Error>) -> ()) {
@@ -67,7 +67,8 @@ class NetworkManager {
                             guard let jsonData = try? JSONSerialization.data(withJSONObject: bookDocument.data() , options: []) else { return }
                             
                             do {
-                                let book = try self.decoder.decode(Book.self, from:  jsonData)
+                                var book = try self.decoder.decode(Book.self, from:  jsonData)
+                                book.id = document.documentID
                                 books.append(book)
                             } catch let error {
                                 completion(.failure(error))
@@ -99,9 +100,16 @@ class NetworkManager {
                     let dispatchGroup = DispatchGroup()
                     
                     
-                    guard let  references = querySnapshot.get("favoriatsBook") as? [DocumentReference] else { return }
+                    guard let  references = querySnapshot.get("favoriatsBook") as? [Any] else { return }
                                         
-                    for ref in references  {
+                    for (i, reference) in references.enumerated()  {
+                        
+                        var ref: DocumentReference
+                        if i != 0 {
+                             ref = reference as! DocumentReference
+                        } else {
+                            continue
+                        }
                         dispatchGroup.enter()
                         
                         
@@ -111,7 +119,8 @@ class NetworkManager {
                                 guard let jsonData = try? JSONSerialization.data(withJSONObject: bookDocument.data() , options: []) else { return }
                                 
                                 do {
-                                    let book = try self.decoder.decode(Book.self, from:  jsonData)
+                                    var book = try self.decoder.decode(Book.self, from:  jsonData)
+                                    book.id = bookDocument.documentID
                                     books.append(book)
                                 } catch let error {
                                     completion(.failure(error))

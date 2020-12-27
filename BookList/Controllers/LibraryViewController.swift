@@ -27,14 +27,13 @@ class LibraryViewController: UIViewController {
         self.setUpViewsConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.editorChoiceBooksView.frame.maxY + 60)
-        let db = Firestore.firestore()
-
-       db.collection("Favoriats").document((User.shared.userData?.uid)!).updateData([
-           "favoriatsBook": FieldValue.arrayUnion([db.document("/Books/30zoFV4ofvrL3olt0gVC")])
-       ])
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.editorChoiceBooksView.frame.maxY + 60)       
     }
     
     private func setUpViewsConstraints() {

@@ -1,6 +1,6 @@
 import Foundation
 
-struct Book: Codable {
+struct Book: Codable, Equatable {
     let name: String
     let annotation: String
     let author: String
@@ -8,5 +8,6 @@ struct Book: Codable {
     let imagePath: String
     let rating: String
     let genre: String
+    var id: String?
 }
 

@@ -2,9 +2,11 @@ import UIKit
 import Firebase
 
 class ProfileViewController: UIViewController {
-    
-   // private var user: User?
     private lazy var favoritesBooksView = BooksView(description: "Избранное", handler: navigateTo)
+    
+    private var handle: AuthStateDidChangeListenerHandle?
+    
+    private var countOfFavoritsBook: Int?
     
     private let  titleLabel: UILabel = {
         let label = UILabel()
@@ -125,14 +127,42 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .softGray
         navigationController?.navigationBar.prefersLargeTitles = true
-        Auth.auth().addStateDidChangeListener({ (auth, user) in
-            self.setUpWindow()
-        })
+        //        Auth.auth().addStateDidChangeListener({ (auth, user) in
+        //            self.setUpWindow()
+        //        })
+        
+//        handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
+//            self.setUpWindow()
+//        })
+        self.fetchData()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.fetchData()
+        handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
+            self.setUpWindow()
+        })
+        
+        if User.shared.userData?.favoriatBooks.count == 0 {
+            let books =   User.shared.userData?.favoriatBooks
+              self.countOfFavoritsBook = books?.count
+              self.favoritesBooksView.setBooks(books: books)
+        }
+        if self.countOfFavoritsBook == nil && User.shared.userData?.favoriatBooks.count != nil {
+          let books =   User.shared.userData?.favoriatBooks
+            self.countOfFavoritsBook = books?.count
+            self.favoritesBooksView.setBooks(books: books)
+            
+        }
+        if self.countOfFavoritsBook != User.shared.userData?.favoriatBooks.count {
+            self.fetchData()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        Auth.auth().removeStateDidChangeListener(handle!)
     }
     
     func navigateTo(book: Book?) {
@@ -148,7 +178,8 @@ class ProfileViewController: UIViewController {
             
             NSLayoutConstraint.deactivate(self.initialConstraints)
             [self.titleLabel, self.descriptionLabel, self.signInButton].forEach { $0.removeFromSuperview() }
-            if user.displayName == nil { return}
+            if favoritesBooksView.getBooksCount() == nil { self.fetchData()}
+            
             let dispatchgroup = DispatchGroup()
             dispatchgroup.enter()
             user.reload { _ in
@@ -156,10 +187,10 @@ class ProfileViewController: UIViewController {
             }
             
             dispatchgroup.notify(queue: DispatchQueue.main) {
-                self.fetchData()
+                //self.fetchData()
                 self.title = "Профиль"
                 [self.containerView, self.favoritesBooksView, self.signOutButton, self.profileLabel, self.nameLabel].forEach { self.view.addSubview($0)}
-                User.shared.userData = UserData(authData: user)
+               // User.shared.userData = UserData(authData: user)
                 self.profileLabel.text = String(User.shared.userData?.name?.first ?? " ")
                 self.nameLabel.text = User.shared.userData?.name
                 NSLayoutConstraint.activate(self.profileConstraints)
@@ -171,7 +202,7 @@ class ProfileViewController: UIViewController {
             [self.titleLabel, self.descriptionLabel, self.signInButton].forEach { self.view.addSubview($0) }
             [self.containerView, self.favoritesBooksView, self.signOutButton, self.profileLabel, self.nameLabel].forEach { $0.removeFromSuperview() }
             NSLayoutConstraint.activate(self.initialConstraints)
-            favoritesBooksView.setBooks(books: nil)
+            self.favoritesBooksView.setBooks(books: nil)
         }
     }
     
@@ -180,8 +211,10 @@ class ProfileViewController: UIViewController {
             switch result  {
             case .success(let books):
                 User.shared.userData?.favoriatBooks = books
+                self.countOfFavoritsBook = books.count
                 self.favoritesBooksView.setBooks(books: books)
             case .failure(let error):
+               // self.favoritesBooksView.setBooks(books: nil)
                 print(error.localizedDescription)
             }
         }
@@ -203,6 +236,7 @@ class ProfileViewController: UIViewController {
         
         let vc = SignInViewController()
         vc.handler = self.setUpWindow
+        
         let detailVC = UINavigationController(rootViewController: vc)
         self.showDetailViewController(detailVC, sender: self)
     }
@@ -231,6 +265,7 @@ class ProfileViewController: UIViewController {
             try Auth.auth().signOut()
         }
         catch { print("already logged out") }
+        User.shared.userData = nil
     }
     
     @objc private func signOutButtonCancelTapped(_ sender: UIButton) {

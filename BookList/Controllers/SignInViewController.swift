@@ -246,7 +246,7 @@ class SignInViewController: UIViewController {
         }
     }
     
-
+    
     
     @objc private func arrowButtonTapped() {
         self.hideKeyboard()
@@ -310,8 +310,9 @@ class SignInViewController: UIViewController {
         }
         self.signInButton.backgroundColor = .black
         self.hideKeyboard()
-        Auth.auth().signIn(withEmail: emailText, password: passwordText) { user, error in
-            if let _ = error, user == nil {
+        
+        Auth.auth().signIn(withEmail: emailText, password: passwordText) { result, error in
+            if let _ = error, result == nil {
                 let alert = UIAlertController(title: "Ошибка при входе",
                                               message: "",
                                               preferredStyle: .alert)
@@ -320,7 +321,22 @@ class SignInViewController: UIViewController {
                 
                 self.present(alert, animated: true, completion: nil)
             } else {
+                User.shared.userData = UserData(authData: result?.user)
+                
+                NetworkManager.shared.downloadFavoriatsBooks(for: User.shared.userData?.uid) { (result) in
+                    switch result  {
+                    case .success(let books):
+                        User.shared.userData?.favoriatBooks = books
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+                
+                
+                
+                self.handler()
                 self.dismiss(animated: true, completion: nil)
+                
             }
         }
     }
@@ -375,6 +391,8 @@ class SignInViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
                 return
             } else {
+                let db = Firestore.firestore()
+                db.collection("Favoriats").document(result?.user.uid ?? " ").setData(["favoriatsBook": ["Hello"]])
                 let changeRequest = result?.user.createProfileChangeRequest()
                 
                 changeRequest?.displayName = nameText
@@ -383,9 +401,12 @@ class SignInViewController: UIViewController {
                     self.handler()
                     dispatchGroup.leave()
                 })
+                
             }
-                        
+            
             dispatchGroup.notify(queue: DispatchQueue.main) {
+                User.shared.userData = UserData(authData: result?.user)
+                User.shared.userData?.name = nameText
                 self.dismiss(animated: true, completion: nil)
             }
         }

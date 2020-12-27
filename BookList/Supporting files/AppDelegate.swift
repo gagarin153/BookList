@@ -7,7 +7,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
-        User.shared.userData = UserData(authData: Auth.auth().currentUser)
+
+        guard let user = Auth.auth().currentUser else {return true}
+        User.shared.userData = UserData(authData: user)
         NetworkManager.shared.downloadFavoriatsBooks(for: Auth.auth().currentUser?.uid) { (result) in
             switch result  {
             case .success(let books):
