@@ -6,7 +6,7 @@ class LibraryViewController: UIViewController {
     private let activityIndicator = UIActivityIndicatorView()
     private let activityIndicatorView = UIView()
     private let scrollView = UIScrollView()
-    private let intrestingView = IntrestingView()
+    private lazy var intrestingView = IntrestingView(handler: openArticle)
     private lazy var topBooksView = BooksView(description: "Топ 25", handler: navigateTo, openFullList: openFullList)
     private lazy var editorChoiceBooksView = BooksView(description: "Выбор редакции",  handler: navigateTo, openFullList: openFullList)
 
@@ -33,7 +33,7 @@ class LibraryViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.editorChoiceBooksView.frame.maxY + 60)       
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.editorChoiceBooksView.frame.maxY + 60)
     }
     
     private func setUpViewsConstraints() {
@@ -67,7 +67,14 @@ class LibraryViewController: UIViewController {
         let rootVC = BookViewController()
         rootVC.modalPresentationStyle = .fullScreen
         rootVC.book = book
-        navigationController?.pushViewController(rootVC, animated: true) 
+        navigationController?.pushViewController(rootVC, animated: true)
+    }
+    
+    func openArticle(article: Article?) {
+        let rootVC = ArticleViewController()
+        rootVC.article = article
+        rootVC.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(rootVC, animated: true)
     }
     
     func openFullList(books: [Book?], title: String?) {
@@ -107,6 +114,20 @@ class LibraryViewController: UIViewController {
             }
             dispatchGroup.leave()
         }
+        
+                dispatchGroup.enter()
+                NetworkManager.shared.downloadArticles { (result) in
+                    switch result  {
+                    case .success(let articles):
+                        DispatchQueue.main.async {
+                        self.intrestingView.setArticles(articles: articles)
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                    dispatchGroup.leave()
+                }
+        
         
         dispatchGroup.notify(queue: DispatchQueue.main) {
             self.deactivateActivityIndicatorConstraint()

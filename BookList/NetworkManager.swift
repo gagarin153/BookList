@@ -140,4 +140,28 @@ class NetworkManager {
         })
 
     }
+    
+    
+    func downloadArticles(completion: @escaping (Result<[Article], Error>) -> ()) {
+        self.db.collection("Articles").getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                var articles = [Article]()
+                for  document in querySnapshot!.documents {
+                    
+                    guard let jsonData = try? JSONSerialization.data(withJSONObject: document.data(), options: []) else { return}
+                    
+                    do {
+                        let article = try self.decoder.decode(Article.self, from: jsonData )
+                        articles.append(article)
+                    } catch let error {
+                        completion(.failure(error))
+                    }
+                }
+                completion(.success(articles))
+            }
+        }
+        
+    }
 }
