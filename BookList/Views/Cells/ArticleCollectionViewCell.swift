@@ -10,32 +10,29 @@ import UIKit
 class ArticleCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "ArticleCell"
     
-    
     private let imageView: UIImageView = {
-        let i = UIImageView()
-        i.backgroundColor = .softGray
-        i.translatesAutoresizingMaskIntoConstraints = false
-        //i.layer.cornerRadius = 30.0
-        return i
+        let imageView = UIImageView()
+        imageView.backgroundColor = .softGray
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "articleImage")
+        return imageView
     }()
     
     private let textLabel: UILabel = {
-        let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.text = "Топ 10 романов русской литературы"
-        l.numberOfLines = 2
-        l.textAlignment = .center
-        return l
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Топ 10 романов русской литературы"
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        return label
     }()
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         self.addSubview(imageView)
         self.addSubview(textLabel)
-        
-        setUpConstaints() 
+        self.setUpConstaints() 
     }
     
     private func setUpConstaints() {

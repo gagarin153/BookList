@@ -9,12 +9,12 @@ class SearchViewController: UIViewController {
         }
     }
     
-    private let placeHolderimageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "booksImage")
-        return imageView
-    }()
+//    private let placeHolderimageView: UIImageView = {
+//        let imageView = UIImageView()
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        imageView.image = UIImage(named: "booksImage")
+//        return imageView
+//    }()
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -45,12 +45,12 @@ class SearchViewController: UIViewController {
     }
     
     private func setUpLayout() {
-        [self.placeHolderimageView, self.tableView].forEach {self.view.addSubview($0)}
-        
-        self.placeHolderimageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        self.placeHolderimageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.placeHolderimageView.heightAnchor.constraint(equalToConstant: 350).isActive = true
-        self.placeHolderimageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        [self.tableView].forEach {self.view.addSubview($0)}
+//        
+//        self.placeHolderimageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+//        self.placeHolderimageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//        self.placeHolderimageView.heightAnchor.constraint(equalToConstant: 350).isActive = true
+//        self.placeHolderimageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         
         self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
