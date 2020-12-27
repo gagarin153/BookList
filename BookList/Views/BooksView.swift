@@ -6,6 +6,7 @@ class BooksView: UIView {
     private var books: [Book?]?
     private let storage = Storage.storage()
     private var navigateTo: ((Book?)->())?
+    private var openFullList: (([Book?], String?)->())?
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -28,6 +29,7 @@ class BooksView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(.systemBlue, for: .normal)
         button.setTitle("см. все", for: .normal)
+        button.addTarget(self, action: #selector(fullListButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -43,12 +45,13 @@ class BooksView: UIView {
         super.init(frame: frame)
     }
     
-    init(description text: String, handler:  @escaping (Book?)->()) {
+    init(description text: String, handler:  @escaping (Book?)->(), openFullList: @escaping ([Book?], String?)->() ) {
         self.init()
         self.descriptionLabel.text = text
         self.setUpViews()
         self.setUpConstraints()
         self.navigateTo = handler
+        self.openFullList = openFullList
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -91,6 +94,12 @@ class BooksView: UIView {
         self.collectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20).isActive = true
     }
     
+    @objc private  func fullListButtonTapped() {
+        if let books = self.books {
+            self.openFullList!(books, descriptionLabel.text)
+        }
+    }
+    
     func getBooksCount() -> Int? {
         return books?.count
     }
@@ -103,7 +112,8 @@ extension BooksView: UICollectionViewDataSource, UICollectionViewDelegate, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return books?.count ?? 0
+        guard let count = books?.count else {return 0}
+        return count > 5 ? 5 : count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

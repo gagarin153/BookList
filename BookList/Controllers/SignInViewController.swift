@@ -4,6 +4,7 @@ import Firebase
 class SignInViewController: UIViewController {
     
     var handler = {}
+        
     private let signInButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false

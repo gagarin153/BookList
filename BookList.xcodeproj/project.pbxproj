@@ -17,6 +17,8 @@
 		2F3630BE253498D90065FEEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F3630BC253498D90065FEEA /* LaunchScreen.storyboard */; };
 		2F5F2A82254459C300C9F814 /* ArticleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */; };
 		2F6486E6259609B700341ECB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6486E5259609B700341ECB /* User.swift */; };
+		2F6BABE92598B84F00B12B95 /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6BABE82598B84F00B12B95 /* BookTableViewCell.swift */; };
+		2F6BABEC2598E35B00B12B95 /* FullBooksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6BABEB2598E35B00B12B95 /* FullBooksViewController.swift */; };
 		2F81E9ED2593643400EDA6C9 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F81E9EC2593643400EDA6C9 /* UserData.swift */; };
 		2F90E13D2543069300536615 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E13C2543069300536615 /* MainTabBarController.swift */; };
 		2F90E142254306E900536615 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90E141254306E900536615 /* LibraryViewController.swift */; };
@@ -45,6 +47,8 @@
 		2F3630BF253498D90065FEEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCollectionViewCell.swift; sourceTree = "<group>"; };
 		2F6486E5259609B700341ECB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = User.swift; path = BookList/User.swift; sourceTree = SOURCE_ROOT; };
+		2F6BABE82598B84F00B12B95 /* BookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTableViewCell.swift; sourceTree = "<group>"; };
+		2F6BABEB2598E35B00B12B95 /* FullBooksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullBooksViewController.swift; sourceTree = "<group>"; };
 		2F81E9E2259360BA00EDA6C9 /* BookList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookList.entitlements; sourceTree = "<group>"; };
 		2F81E9EC2593643400EDA6C9 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		2F90E13C2543069300536615 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 				2F11CD8B25964EDF00CCA174 /* AnnotationCollectionViewCell.swift */,
 				2F5F2A81254459C300C9F814 /* ArticleCollectionViewCell.swift */,
 				2F11CD8825964D7100CCA174 /* DescriptionBookCollectionViewCell.swift */,
+				2F6BABE82598B84F00B12B95 /* BookTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -156,6 +161,7 @@
 				2F136E1C2592AF47008098EB /* SignInViewController.swift */,
 				2F90E141254306E900536615 /* LibraryViewController.swift */,
 				2F90E145254306FA00536615 /* SearchViewController.swift */,
+				2F6BABEB2598E35B00B12B95 /* FullBooksViewController.swift */,
 				2F90E1482543070600536615 /* ProfileViewController.swift */,
 				2F11CD81259649B900CCA174 /* BookViewController.swift */,
 			);
@@ -319,6 +325,7 @@
 				2FA9213C25925F9700DB5C8F /* NetworkManager.swift in Sources */,
 				2F6486E6259609B700341ECB /* User.swift in Sources */,
 				2F9129282548402000B5D0B3 /* BookCollectionViewCell.swift in Sources */,
+				2F6BABE92598B84F00B12B95 /* BookTableViewCell.swift in Sources */,
 				2F5F2A82254459C300C9F814 /* ArticleCollectionViewCell.swift in Sources */,
 				2F90E146254306FA00536615 /* SearchViewController.swift in Sources */,
 				2F81E9ED2593643400EDA6C9 /* UserData.swift in Sources */,
@@ -326,6 +333,7 @@
 				2F90E13D2543069300536615 /* MainTabBarController.swift in Sources */,
 				2F11CD8925964D7100CCA174 /* DescriptionBookCollectionViewCell.swift in Sources */,
 				2FA9213825925C3300DB5C8F /* Book.swift in Sources */,
+				2F6BABEC2598E35B00B12B95 /* FullBooksViewController.swift in Sources */,
 				2F912924254834CF00B5D0B3 /* BooksView.swift in Sources */,
 				2F90E142254306E900536615 /* LibraryViewController.swift in Sources */,
 				2F11CD8C25964EDF00CCA174 /* AnnotationCollectionViewCell.swift in Sources */,

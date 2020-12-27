@@ -27,8 +27,8 @@ class NetworkManager {
     private let decoder = JSONDecoder()
 
     
-    func downloadGeneralBooks(completion: @escaping (Result<[Book], Error>) -> ()) {
-        self.db.collection("Books").limit(to: 6).getDocuments { (querySnapshot, err) in
+    func downloadGeneralBooks(limit: Int, completion: @escaping (Result<[Book], Error>) -> ()) {
+        self.db.collection("Books").limit(to: limit).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -52,7 +52,7 @@ class NetworkManager {
     }
     
     func downloadEditorChoiceBooks(completion: @escaping (Result<[Book], Error>) -> ()) {
-        self.db.collection("Editor choice").limit(to: 6).getDocuments { (querySnapshot, error) in
+        self.db.collection("Editor choice").limit(to: 8).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error getting documents: \(error)")
             } else {

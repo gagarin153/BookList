@@ -30,7 +30,7 @@ class DescriptionBookCollectionViewCell: UICollectionViewCell {
             }
             
             guard let result = User.shared.userData?.favoriatBooks.contains(book) else {
-                self.setDeleteButton()
+                self.setAddButton()
                 return
             }
                     

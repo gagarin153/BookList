@@ -45,7 +45,7 @@ class BookCollectionViewCell: UICollectionViewCell {
     }
     
     
-    private func setUpConstaints() {
+     func setUpConstaints() {
         [self.bookImageView, self.nameLabel].forEach { self.contentView.addSubview($0) }
         
         self.bookImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true

@@ -1,13 +1,15 @@
-import UIKit
-import Firebase
+//
+//  FullBooksViewController.swift
+//  BookList
+//
+//  Created by Sultan on 27.12.2020.
+//
 
-class SearchViewController: UIViewController {
-    
-    private var books = [Book]() {
-        didSet {
-            self.tableView.reloadData()
-        }
-    }
+import UIKit
+
+class FullBooksViewController: UIViewController {
+
+     var books = [Book?]()
     
     private let placeHolderimageView: UIImageView = {
         let imageView = UIImageView()
@@ -25,6 +27,7 @@ class SearchViewController: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         tableView.keyboardDismissMode = .onDrag
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80.0, right: 0)
         return tableView
     }()
     
@@ -33,15 +36,9 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .softGray
         navigationController?.navigationBar.prefersLargeTitles = true
-        self.title = "Поиск"
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.setUpLayout()
-        let search = UISearchController(searchResultsController: nil)
-        search.searchResultsUpdater = self
-        search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Напишите здесь название книги"
-        navigationItem.searchController = search
     }
     
     private func setUpLayout() {
@@ -59,7 +56,7 @@ class SearchViewController: UIViewController {
     }
 }
 
-extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
+extension FullBooksViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
@@ -70,11 +67,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: BookTableViewCell.reuseIdentifier, for: indexPath) as? BookTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: BookTableViewCell.reuseIdentifier, for: indexPath) as? BookTableViewCell, let book = books[indexPath.row] else {
             return UITableViewCell()
         }
         
-        let book = books[indexPath.row]
         cell.setCell(with: book.name, imagePath: book.imagePath)
         return cell
     }
@@ -84,21 +80,5 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         rootVC.modalPresentationStyle = .fullScreen
         rootVC.book = books[indexPath.row]
         navigationController?.pushViewController(rootVC, animated: true)
-    }
-}
-
-extension SearchViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        NetworkManager.shared.downloadGeneralBooks(limit: 20) { (result) in
-            switch result {
-            case .success(let books):
-                self.books = books.filter { $0.name.contains(text)}
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-            
-        }
-        
     }
 }

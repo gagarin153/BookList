@@ -2,7 +2,7 @@ import UIKit
 import Firebase
 
 class ProfileViewController: UIViewController {
-    private lazy var favoritesBooksView = BooksView(description: "Избранное", handler: navigateTo)
+    private lazy var favoritesBooksView = BooksView(description: "Избранное", handler: navigateTo, openFullList: openFullList)
     
     private var handle: AuthStateDidChangeListenerHandle?
     
@@ -169,6 +169,14 @@ class ProfileViewController: UIViewController {
         let rootVC = BookViewController()
         rootVC.modalPresentationStyle = .fullScreen
         rootVC.book = book
+        navigationController?.pushViewController(rootVC, animated: true)
+    }
+    
+    func openFullList(books: [Book?], title: String?) {
+        let rootVC = FullBooksViewController()
+        rootVC.modalPresentationStyle = .fullScreen
+        rootVC.books = books
+        rootVC.title = title
         navigationController?.pushViewController(rootVC, animated: true)
     }
     

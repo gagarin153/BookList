@@ -7,8 +7,8 @@ class LibraryViewController: UIViewController {
     private let activityIndicatorView = UIView()
     private let scrollView = UIScrollView()
     private let intrestingView = IntrestingView()
-    private lazy var topBooksView = BooksView(description: "Топ 25", handler: navigateTo)
-    private lazy var editorChoiceBooksView = BooksView(description: "Выбор редакции",  handler: navigateTo)
+    private lazy var topBooksView = BooksView(description: "Топ 25", handler: navigateTo, openFullList: openFullList)
+    private lazy var editorChoiceBooksView = BooksView(description: "Выбор редакции",  handler: navigateTo, openFullList: openFullList)
 
     private lazy var activityIndicatorViewConstraints = [
         activityIndicatorView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -70,12 +70,20 @@ class LibraryViewController: UIViewController {
         navigationController?.pushViewController(rootVC, animated: true) 
     }
     
+    func openFullList(books: [Book?], title: String?) {
+        let rootVC = FullBooksViewController()
+        rootVC.modalPresentationStyle = .fullScreen
+        rootVC.books = books
+        rootVC.title = title
+        navigationController?.pushViewController(rootVC, animated: true)
+    }
+    
     private func fetchDataRequest(){
         
         let dispatchGroup = DispatchGroup()
 
         dispatchGroup.enter()
-        NetworkManager.shared.downloadGeneralBooks { (result) in
+        NetworkManager.shared.downloadGeneralBooks(limit: 20) { (result) in
             switch result  {
             case .success(let books):
                 DispatchQueue.main.async {
