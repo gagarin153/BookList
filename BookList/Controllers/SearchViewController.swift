@@ -90,7 +90,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
-        NetworkManager.shared.downloadGeneralBooks(limit: 30) { (result) in
+        NetworkManager.shared.downloadGeneralBooks(limit: 31) { (result) in
             switch result {
             case .success(let books):
                 self.books = books.filter { $0.name.contains(text)}

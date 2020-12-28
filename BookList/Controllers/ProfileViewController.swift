@@ -3,10 +3,16 @@ import Firebase
 
 class ProfileViewController: UIViewController {
     private lazy var favoritesBooksView = BooksView(description: "Избранное", handler: navigateTo, openFullList: openFullList)
-    
     private var handle: AuthStateDidChangeListenerHandle?
-    
     private var countOfFavoritsBook: Int?
+    
+    private let scrollView: UIScrollView = {
+          let scrollView = UIScrollView()
+          scrollView.translatesAutoresizingMaskIntoConstraints = false
+          scrollView.showsVerticalScrollIndicator = false
+          return scrollView
+      }()
+      
     
     private let  titleLabel: UILabel = {
         let label = UILabel()
@@ -99,29 +105,36 @@ class ProfileViewController: UIViewController {
     ]
     
     private lazy var profileConstraints = [
-        self.containerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20.0),
-        self.containerView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-        self.containerView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+        
+        self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+        self.scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+        self.scrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+        self.scrollView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+        
+        self.containerView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 20.0),
+        self.containerView.leadingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+        self.containerView.trailingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -8),
         self.containerView.heightAnchor.constraint(equalToConstant: 200.0),
         
         self.profileLabel.topAnchor.constraint(equalTo: self.containerView.topAnchor, constant: 20),
         self.profileLabel.centerXAnchor.constraint(equalTo: self.containerView.centerXAnchor),
         self.profileLabel.widthAnchor.constraint(equalToConstant: 100.0),
         self.profileLabel.heightAnchor.constraint(equalToConstant: 100.0),
-        
+
         self.nameLabel.centerXAnchor.constraint(equalTo: self.containerView.centerXAnchor),
         self.nameLabel.topAnchor.constraint(equalTo: self.profileLabel.bottomAnchor, constant: 20.0),
-        
+
         self.favoritesBooksView.topAnchor.constraint(equalTo: self.containerView.bottomAnchor, constant: 20.0),
-        self.favoritesBooksView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-        self.favoritesBooksView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+        self.favoritesBooksView.leadingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+        self.favoritesBooksView.trailingAnchor.constraint(equalTo: self.scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -8),
         self.favoritesBooksView.heightAnchor.constraint(equalToConstant: 220),
-        
+
         self.signOutButton.topAnchor.constraint(equalTo:  self.containerView.topAnchor, constant: 8.0),
         self.signOutButton.heightAnchor.constraint(equalToConstant: 25.0),
         self.signOutButton.widthAnchor.constraint(equalToConstant: 80),
         self.signOutButton.trailingAnchor.constraint(equalTo: self.containerView.trailingAnchor, constant: -8)
     ]
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -165,6 +178,11 @@ class ProfileViewController: UIViewController {
         Auth.auth().removeStateDidChangeListener(handle!)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height)
+    }
+    
     func navigateTo(book: Book?) {
         let rootVC = BookViewController()
         rootVC.modalPresentationStyle = .fullScreen
@@ -197,7 +215,8 @@ class ProfileViewController: UIViewController {
             dispatchgroup.notify(queue: DispatchQueue.main) {
                 //self.fetchData()
                 self.title = "Профиль"
-                [self.containerView, self.favoritesBooksView, self.signOutButton, self.profileLabel, self.nameLabel].forEach { self.view.addSubview($0)}
+                self.view.addSubview(self.scrollView)
+                [self.containerView, self.favoritesBooksView, self.signOutButton, self.profileLabel, self.nameLabel].forEach { self.scrollView.addSubview($0)}
                // User.shared.userData = UserData(authData: user)
                 self.profileLabel.text = String(User.shared.userData?.name?.first ?? " ")
                 self.nameLabel.text = User.shared.userData?.name
@@ -208,7 +227,7 @@ class ProfileViewController: UIViewController {
             self.title = ""
             NSLayoutConstraint.deactivate(self.profileConstraints)
             [self.titleLabel, self.descriptionLabel, self.signInButton].forEach { self.view.addSubview($0) }
-            [self.containerView, self.favoritesBooksView, self.signOutButton, self.profileLabel, self.nameLabel].forEach { $0.removeFromSuperview() }
+            [self.scrollView].forEach { $0.removeFromSuperview() }
             NSLayoutConstraint.activate(self.initialConstraints)
             self.favoritesBooksView.setBooks(books: nil)
         }

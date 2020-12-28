@@ -25,7 +25,7 @@ class NetworkManager {
     
     private let db = Firestore.firestore()
     private let decoder = JSONDecoder()
-
+    
     
     func downloadGeneralBooks(limit: Int, completion: @escaping (Result<[Book], Error>) -> ()) {
         self.db.collection("Books").limit(to: limit).getDocuments { (querySnapshot, err) in
@@ -36,7 +36,7 @@ class NetworkManager {
                 for  document in querySnapshot!.documents {
                     
                     guard let jsonData = try? JSONSerialization.data(withJSONObject: document.data(), options: []) else { return}
-                
+                    
                     do {
                         var book = try self.decoder.decode(Book.self, from: jsonData )
                         book.id = document.documentID
@@ -46,7 +46,6 @@ class NetworkManager {
                     }
                 }
                 
-                print(Double(books[0].rating))
                 books.sort { Double($0.rating) ?? 0.0 > Double($1.rating) ?? 0.0}
                 completion(.success(books))
             }
@@ -104,44 +103,41 @@ class NetworkManager {
                     
                     
                     guard let  references = querySnapshot.get("favoriatsBook") as? [Any] else { return }
-                                        
-                    for (i, reference) in references.enumerated()  {
+                    
+                    for reference in references {
                         
-                        var ref: DocumentReference
-                        if i != 0 {
-                             ref = reference as! DocumentReference
-                        } else {
-                            continue
-                        }
-                        dispatchGroup.enter()
-                        
-                        
-                        ref.getDocument { (bookDocument, error) in
-                            if let bookDocument = bookDocument, bookDocument.exists {
-                                
-                                guard let jsonData = try? JSONSerialization.data(withJSONObject: bookDocument.data() , options: []) else { return }
-                                
-                                do {
-                                    var book = try self.decoder.decode(Book.self, from:  jsonData)
-                                    book.id = bookDocument.documentID
-                                    books.append(book)
-                                } catch let error {
-                                    completion(.failure(error))
+                        if  reference as? String == nil {
+                            
+                            guard let ref = reference as? DocumentReference else {  continue}
+                            
+                            dispatchGroup.enter()
+                            ref.getDocument { (bookDocument, error) in
+                                if let bookDocument = bookDocument, bookDocument.exists {
+                                    
+                                    guard let jsonData = try? JSONSerialization.data(withJSONObject: bookDocument.data() , options: []) else { return }
+                                    
+                                    do {
+                                        var book = try self.decoder.decode(Book.self, from:  jsonData)
+                                        book.id = bookDocument.documentID
+                                        books.append(book)
+                                    } catch let error {
+                                        completion(.failure(error))
+                                    }
+                                    dispatchGroup.leave()
+                                    
+                                } else {
+                                    print("Document does not exist")
                                 }
-                                dispatchGroup.leave()
-                                
-                            } else {
-                                print("Document does not exist")
                             }
-                        }
-                        dispatchGroup.notify(queue: DispatchQueue.main) {
-                            completion(.success(books))
+                            dispatchGroup.notify(queue: DispatchQueue.main) {
+                                completion(.success(books))
+                            }
                         }
                     }
                 }
             }
         })
-
+        
     }
     
     
