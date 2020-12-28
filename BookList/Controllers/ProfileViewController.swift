@@ -1,8 +1,9 @@
 import UIKit
 import Firebase
 
-class ProfileViewController: UIViewController {
-    private lazy var favoritesBooksView = BooksView(description: "Избранное", handler: navigateTo, openFullList: openFullList)
+class ProfileViewController: UIViewController, BooksViewDelegate {
+    
+    private lazy var favoritesBooksView = BooksView(description: "Избранное")
     private var handle: AuthStateDidChangeListenerHandle?
     private var countOfFavoritsBook: Int?
     
@@ -140,15 +141,8 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .softGray
         navigationController?.navigationBar.prefersLargeTitles = true
-        //        Auth.auth().addStateDidChangeListener({ (auth, user) in
-        //            self.setUpWindow()
-        //        })
-        
-//        handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
-//            self.setUpWindow()
-//        })
+        self.favoritesBooksView.delegate = self
         self.fetchData()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
