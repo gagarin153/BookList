@@ -1,14 +1,14 @@
 import UIKit
 import Firebase
 
-class LibraryViewController: UIViewController {
+class LibraryViewController: UIViewController, BooksViewDelegate, IntrestingViewDelegate {
     
     private let activityIndicator = UIActivityIndicatorView()
     private let activityIndicatorView = UIView()
     private let scrollView = UIScrollView()
-    private lazy var intrestingView = IntrestingView(handler: openArticle)
-    private lazy var topBooksView = BooksView(description: "Топ 25", handler: navigateTo, openFullList: openFullList)
-    private lazy var editorChoiceBooksView = BooksView(description: "Выбор редакции",  handler: navigateTo, openFullList: openFullList)
+    private lazy var intrestingView = IntrestingView()
+    private lazy var topBooksView = BooksView(description: "Топ 25")
+    private lazy var editorChoiceBooksView = BooksView(description: "Выбор редакции")
 
     private lazy var activityIndicatorViewConstraints = [
         activityIndicatorView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -25,6 +25,9 @@ class LibraryViewController: UIViewController {
         self.setUpViewsConstraints()
         self.fetchDataRequest()
         self.setUpViewsConstraints()
+        self.topBooksView.delegate = self
+        self.editorChoiceBooksView.delegate = self
+        self.intrestingView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {

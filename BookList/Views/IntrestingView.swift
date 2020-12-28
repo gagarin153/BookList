@@ -1,10 +1,14 @@
 import UIKit
 
+protocol IntrestingViewDelegate {
+    func openArticle(article: Article?) ->()
+}
+
 class IntrestingView: UIView {
     
     private var articles: [Article?]?
-    private var navigateToArticle: ((Article?)->())?
-        
+    var delegate: IntrestingViewDelegate?
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -43,13 +47,8 @@ class IntrestingView: UIView {
     
     override init(frame: CGRect){
         super.init(frame: frame)
-    }
-    
-    init( handler:  @escaping (Article?)->() ) {
-        self.init()
         self.setUpViews()
         self.setUpConstraints()
-        self.navigateToArticle = handler
     }
     
     func setArticles(articles: [Article?]?) {
@@ -115,9 +114,7 @@ extension IntrestingView: UICollectionViewDataSource, UICollectionViewDelegate, 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let navigateToArticle = self.navigateToArticle else { return }
-
-        navigateToArticle(articles?[indexPath.item])
+        delegate?.openArticle(article: articles?[indexPath.item])
     }
     
 }
