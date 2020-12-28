@@ -72,8 +72,8 @@ class FullArticleCollectionViewCell: UICollectionViewCell {
         self.bookImageView.widthAnchor.constraint(equalToConstant: 230.0).isActive = true
         
         self.textLabel.topAnchor.constraint(equalTo: self.bookImageView.bottomAnchor, constant: 20).isActive = true
-        self.textLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10).isActive = true
-        self.textLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
+        self.textLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20).isActive = true
+        self.textLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20).isActive = true
 
         self.contentView.bottomAnchor.constraint(equalTo: self.textLabel.bottomAnchor, constant: 20 ).isActive = true
     }
