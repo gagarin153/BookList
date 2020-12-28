@@ -4,7 +4,6 @@ import Firebase
 class BooksView: UIView {
     
     private var books: [Book?]?
-    private let storage = Storage.storage()
     private var navigateTo: ((Book?)->())?
     private var openFullList: (([Book?], String?)->())?
     

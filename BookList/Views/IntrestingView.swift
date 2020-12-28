@@ -1,6 +1,9 @@
 import UIKit
 
 class IntrestingView: UIView {
+    
+    private var articles: [Article?]?
+    private var navigateToArticle: ((Article?)->())?
         
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -40,9 +43,18 @@ class IntrestingView: UIView {
     
     override init(frame: CGRect){
         super.init(frame: frame)
-        
-        setUpViews()
-        setUpConstraints()
+    }
+    
+    init( handler:  @escaping (Article?)->() ) {
+        self.init()
+        self.setUpViews()
+        self.setUpConstraints()
+        self.navigateToArticle = handler
+    }
+    
+    func setArticles(articles: [Article?]?) {
+        self.articles = articles
+        self.collectionView.reloadData()
     }
     
     private func setUpViews() {
@@ -79,6 +91,7 @@ class IntrestingView: UIView {
         
     }
     
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -91,17 +104,20 @@ extension IntrestingView: UICollectionViewDataSource, UICollectionViewDelegate, 
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return articles?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArticleCollectionViewCell.reuseIdentifier, for: indexPath) as? ArticleCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArticleCollectionViewCell.reuseIdentifier, for: indexPath) as? ArticleCollectionViewCell, let article = articles?[indexPath.row] else { return UICollectionViewCell() }
         
-        return cell ?? UICollectionViewCell()
+        cell.setCell(with: article.name, imagePath: article.mainImagePath)
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
+        guard let navigateToArticle = self.navigateToArticle else { return }
+
+        navigateToArticle(articles?[indexPath.item])
     }
     
 }

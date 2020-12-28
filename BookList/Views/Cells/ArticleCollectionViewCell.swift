@@ -1,11 +1,5 @@
-//
-//  ArticleCollectionViewCell.swift
-//  BookList
-//
-//  Created by Sultan on 24.10.2020.
-//
-
 import UIKit
+import Firebase
 
 class ArticleCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "ArticleCell"
@@ -32,7 +26,7 @@ class ArticleCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         self.addSubview(imageView)
         self.addSubview(textLabel)
-        self.setUpConstaints() 
+        self.setUpConstaints()
     }
     
     private func setUpConstaints() {
@@ -45,6 +39,20 @@ class ArticleCollectionViewCell: UICollectionViewCell {
         textLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         textLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }
+    
+    func setCell(with text: String, imagePath: String) {
+          self.textLabel.text = text
+          let storageRef = Storage.storage().reference()
+          let imageRef = storageRef.child(imagePath)
+          
+          imageRef.downloadURL { url, error in
+              if let error = error {
+                  print(error.localizedDescription)
+              } else {
+                  self.imageView.kf.setImage(with: url)
+              }
+          }
+      }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
