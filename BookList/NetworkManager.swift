@@ -45,6 +45,9 @@ class NetworkManager {
                         completion(.failure(error))
                     }
                 }
+                
+                print(Double(books[0].rating))
+                books.sort { Double($0.rating) ?? 0.0 > Double($1.rating) ?? 0.0}
                 completion(.success(books))
             }
         }
