@@ -140,7 +140,8 @@ class ProfileViewController: UIViewController, BooksViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .softGray
-        navigationController?.navigationBar.prefersLargeTitles = true
+        self.title = "Профиль"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         self.favoritesBooksView.delegate = self
         self.fetchData()
     }
@@ -208,7 +209,7 @@ class ProfileViewController: UIViewController, BooksViewDelegate {
             
             dispatchgroup.notify(queue: DispatchQueue.main) {
                 //self.fetchData()
-                self.title = "Профиль"
+                self.navigationController?.navigationBar.isHidden = false
                 self.view.addSubview(self.scrollView)
                 [self.containerView, self.favoritesBooksView, self.signOutButton, self.profileLabel, self.nameLabel].forEach { self.scrollView.addSubview($0)}
                // User.shared.userData = UserData(authData: user)
@@ -218,7 +219,7 @@ class ProfileViewController: UIViewController, BooksViewDelegate {
             }
             
         } else {
-            self.title = ""
+            self.navigationController?.navigationBar.isHidden = true
             NSLayoutConstraint.deactivate(self.profileConstraints)
             [self.titleLabel, self.descriptionLabel, self.signInButton].forEach { self.view.addSubview($0) }
             [self.scrollView].forEach { $0.removeFromSuperview() }

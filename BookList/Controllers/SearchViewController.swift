@@ -93,7 +93,7 @@ extension SearchViewController: UISearchResultsUpdating {
         NetworkManager.shared.downloadGeneralBooks(limit: 31) { (result) in
             switch result {
             case .success(let books):
-                self.books = books.filter { $0.name.contains(text)}
+                self.books = books.filter { $0.name.lowercased().contains(text.lowercased())}
             case .failure(let error):
                 print(error.localizedDescription)
             }
